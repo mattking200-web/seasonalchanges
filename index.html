@@ -3,19 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Day & Seasons Science Lab – Grade 1</title>
-  <!-- Tailwind CSS for clean responsive layout -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Kid-friendly rounded font -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet" />
+  <title>Grade 1 Science: Daily &amp; Seasonal Changes</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='16' fill='%23facc15' stroke='%231e293b' stroke-width='4'/%3E%3Cg stroke='%23f59e0b' stroke-width='5' stroke-linecap='round'%3E%3Cline x1='32' y1='4' x2='32' y2='10'/%3E%3Cline x1='32' y1='54' x2='32' y2='60'/%3E%3Cline x1='4' y1='32' x2='10' y2='32'/%3E%3Cline x1='54' y1='32' x2='60' y2='32'/%3E%3C/g%3E%3C/svg%3E" />
   <style>
-    :root {
-      --bg-sky: #f0f9ff;
-      --card-border: #334155;
-    }
-
+    /* ==========================================================================
+       SELF-CONTAINED KID-FRIENDLY STYLES (ZERO EXTERNAL DEPENDENCIES)
+       ========================================================================== */
     * {
       box-sizing: border-box;
       -webkit-tap-highlight-color: transparent;
@@ -24,364 +17,1354 @@
     }
 
     body {
-      font-family: 'Nunito', sans-serif;
-      background: linear-gradient(180deg, #e0f2fe 0%, #fefce8 55%, #f0fdf4 100%);
-      min-height: 100vh;
       margin: 0;
       padding: 0;
+      font-family: "Trebuchet MS", "Arial Rounded MT Bold", "Segoe UI", system-ui, -apple-system, sans-serif;
+      background: linear-gradient(180deg, #e0f2fe 0%, #fefce8 55%, #f0fdf4 100%);
+      color: #0f172a;
+      min-height: 100vh;
       overflow-x: hidden;
+      overscroll-behavior-y: contain;
       touch-action: manipulation;
     }
 
-    h1, h2, h3, .font-display {
-      font-family: 'Fredoka', sans-serif;
+    button, input {
+      font-family: inherit;
     }
 
-    /* Custom Animations */
-    @keyframes wiggle {
-      0%, 100% { transform: translateX(0) rotate(0deg); }
-      20% { transform: translateX(-8px) rotate(-4deg); }
-      40% { transform: translateX(8px) rotate(4deg); }
-      60% { transform: translateX(-6px) rotate(-2deg); }
-      80% { transform: translateX(6px) rotate(2deg); }
+    input {
+      user-select: text;
+      -webkit-user-select: text;
     }
 
-    @keyframes popIn {
-      0% { transform: scale(0.75); opacity: 0; }
-      70% { transform: scale(1.06); opacity: 1; }
-      100% { transform: scale(1); opacity: 1; }
+    .hidden {
+      display: none !important;
     }
 
-    @keyframes floatSlow {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-6px); }
+    /* Sticky Top Header */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 4px solid #bae6fd;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
     }
 
-    @keyframes pulseRing {
-      0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.55); }
-      70% { box-shadow: 0 0 0 12px rgba(59, 130, 246, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+    .topbar-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 10px 14px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
     }
 
-    .animate-wiggle {
-      animation: wiggle 0.45s ease-in-out;
+    .brand-group, .controls-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
     }
 
-    .animate-pop {
-      animation: popIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border-radius: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.12s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+      border: 2px solid transparent;
     }
 
-    .animate-float {
-      animation: floatSlow 3.5s ease-in-out infinite;
+    .btn:active {
+      transform: scale(0.95);
     }
 
-    .card-selected {
-      border-color: #2563eb !important;
-      background-color: #eff6ff !important;
-      transform: translateY(-6px) scale(1.04);
-      animation: pulseRing 1.5s infinite;
+    .btn-home {
+      background: #0284c7;
+      color: #ffffff;
+      padding: 9px 14px;
+      font-size: 1.05rem;
+      box-shadow: 0 3px 0 #0369a1;
     }
 
-    .drop-zone-active {
-      border-color: #2563eb !important;
-      background-color: rgba(219, 234, 254, 0.7) !important;
-      transform: scale(1.015);
+    .btn-home:hover {
+      background: #0369a1;
     }
 
-    /* Speaker button tactile press */
+    .btn-marks {
+      background: #fef3c7;
+      border-color: #f59e0b;
+      color: #78350f;
+      padding: 8px 13px;
+      font-size: 0.95rem;
+    }
+
+    .btn-marks:hover {
+      background: #fde68a;
+    }
+
+    .btn-read-on {
+      background: #d1fae5;
+      border-color: #10b981;
+      color: #065f46;
+      padding: 8px 12px;
+      font-size: 0.9rem;
+    }
+
+    .btn-read-off {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+      color: #475569;
+      padding: 8px 12px;
+      font-size: 0.9rem;
+    }
+
+    .btn-speed {
+      background: #e0f2fe;
+      border-color: #7dd3fc;
+      color: #0c4a6e;
+      padding: 8px 11px;
+      font-size: 0.9rem;
+    }
+
+    .btn-sfx {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+      color: #1e293b;
+      width: 40px;
+      height: 40px;
+      font-size: 1.1rem;
+      padding: 0;
+    }
+
+    .btn-sfx.muted {
+      background: #ffe4e6;
+      border-color: #fda4af;
+      color: #9f1239;
+    }
+
     .speak-btn {
-      transition: transform 0.12s ease, background-color 0.15s ease;
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      background: #fcd34d;
+      border: 2px solid #d97706;
+      color: #0f172a;
+      font-size: 1rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      box-shadow: 0 2px 0 #b45309;
+      transition: transform 0.1s ease;
     }
+
     .speak-btn:active {
       transform: scale(0.9);
     }
 
-    /* Dragging ghost card */
-    .drag-ghost {
-      position: fixed;
-      pointer-events: none;
-      z-index: 9999;
-      opacity: 0.92;
-      transform: translate(-50%, -50%) scale(1.08) rotate(3deg);
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.25);
+    .progress-pill {
+      background: #fef3c7;
+      border: 2px solid #fcd34d;
+      color: #78350f;
+      font-weight: 800;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 14px;
     }
 
-    /* Confetti particles */
+    /* Main Layout */
+    .main-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 14px 36px;
+    }
+
+    /* Menu Hero */
+    .hero-card {
+      background: #ffffff;
+      border: 4px solid #7dd3fc;
+      border-radius: 26px;
+      padding: 18px 20px;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.08);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .hero-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex: 1 1 300px;
+    }
+
+    .hero-globe {
+      width: 62px;
+      height: 62px;
+      border-radius: 18px;
+      background: #fef3c7;
+      border: 2px solid #fcd34d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      flex-shrink: 0;
+    }
+
+    .hero-title-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .hero-title {
+      margin: 0;
+      font-size: 1.55rem;
+      font-weight: 900;
+      color: #0c4a6e;
+    }
+
+    .hero-sub {
+      margin: 4px 0 0;
+      color: #475569;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .stars-box {
+      background: #fffbeb;
+      border: 2px solid #fcd34d;
+      border-radius: 18px;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Filter Bar */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .filter-btn {
+      padding: 10px 16px;
+      border-radius: 16px;
+      font-weight: 800;
+      font-size: 0.95rem;
+      cursor: pointer;
+      border: 2px solid #cbd5e1;
+      background: #ffffff;
+      color: #334155;
+      transition: all 0.15s ease;
+    }
+
+    .filter-btn.active {
+      background: #0284c7;
+      border-color: #0369a1;
+      color: #ffffff;
+      box-shadow: 0 3px 0 #0369a1;
+    }
+
+    /* Activity Grid */
+    .activities-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 14px;
+    }
+
+    .menu-card {
+      background: #ffffff;
+      border: 4px solid #bae6fd;
+      border-radius: 24px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+      cursor: pointer;
+      box-shadow: 0 3px 8px rgba(15, 23, 42, 0.05);
+      transition: transform 0.12s ease, border-color 0.15s ease;
+    }
+
+    .menu-card:hover {
+      border-color: #38bdf8;
+      transform: translateY(-2px);
+    }
+
+    .menu-card.done {
+      border-color: #fbbf24;
+      background: #fffdf5;
+    }
+
+    .menu-card.perfect {
+      border-color: #34d399;
+      background: #f3fdf8;
+    }
+
+    .menu-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .code-badge {
+      background: #e0f2fe;
+      border: 1.5px solid #7dd3fc;
+      color: #0c4a6e;
+      font-weight: 900;
+      font-size: 0.78rem;
+      padding: 3px 8px;
+      border-radius: 10px;
+    }
+
+    .mark-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #fef3c7;
+      border: 2px solid #f59e0b;
+      color: #78350f;
+      font-weight: 900;
+      font-size: 0.78rem;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+
+    .mark-pill.perfect {
+      background: #d1fae5;
+      border-color: #10b981;
+      color: #065f46;
+    }
+
+    .menu-card-body {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .menu-emoji {
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      background: #f0f9ff;
+      border: 2px solid #bae6fd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.9rem;
+      flex-shrink: 0;
+    }
+
+    .menu-title {
+      margin: 0;
+      font-size: 1.12rem;
+      font-weight: 900;
+      color: #0f172a;
+      line-height: 1.25;
+    }
+
+    .menu-start-btn {
+      width: 100%;
+      padding: 10px;
+      border-radius: 15px;
+      border: none;
+      background: #0284c7;
+      color: #ffffff;
+      font-weight: 900;
+      font-size: 0.98rem;
+      cursor: pointer;
+    }
+
+    .menu-card.done .menu-start-btn {
+      background: #d97706;
+    }
+
+    .menu-card.perfect .menu-start-btn {
+      background: #059669;
+    }
+
+    /* Active Workspace */
+    .workspace-header {
+      background: #ffffff;
+      border: 4px solid #fcd34d;
+      border-radius: 26px;
+      padding: 14px 18px;
+      box-shadow: 0 3px 10px rgba(15, 23, 42, 0.05);
+      margin-bottom: 12px;
+    }
+
+    .workspace-header-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .workspace-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1 1 300px;
+    }
+
+    .btn-back {
+      background: #f1f5f9;
+      border: 2px solid #cbd5e1;
+      color: #1e293b;
+      padding: 9px 14px;
+      font-size: 0.95rem;
+    }
+
+    .workspace-title {
+      margin: 2px 0;
+      font-size: 1.35rem;
+      font-weight: 900;
+      color: #0f172a;
+    }
+
+    .workspace-inst {
+      margin: 0;
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: #334155;
+    }
+
+    .btn-read-dir {
+      background: #fbbf24;
+      border-color: #d97706;
+      color: #0f172a;
+      padding: 9px 14px;
+      font-size: 0.95rem;
+      box-shadow: 0 2px 0 #b45309;
+    }
+
+    .btn-teacher {
+      background: #eef2ff;
+      border-color: #a5b4fc;
+      color: #312e81;
+      padding: 9px 12px;
+      font-size: 0.88rem;
+    }
+
+    .btn-reset {
+      background: #fff1f2;
+      border-color: #fda4af;
+      color: #9f1239;
+      padding: 9px 12px;
+      font-size: 0.88rem;
+    }
+
+    .teacher-drawer {
+      margin-top: 12px;
+      background: #eef2ff;
+      border: 2px solid #c7d2fe;
+      border-radius: 18px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .helper-bar {
+      background: #e0f2fe;
+      border: 2px solid #7dd3fc;
+      border-radius: 16px;
+      padding: 8px 14px;
+      text-align: center;
+      font-weight: 800;
+      color: #0c4a6e;
+      font-size: 0.95rem;
+      margin-bottom: 14px;
+    }
+
+    /* Sort Boards */
+    .sort-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .sort-grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    @media (max-width: 820px) {
+      .sort-grid-4 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 560px) {
+      .sort-grid-2, .sort-grid-4 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .drop-bin {
+      border-radius: 24px;
+      border: 4px solid #38bdf8;
+      background: #f0f9ff;
+      padding: 12px;
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      transition: transform 0.12s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+    }
+
+    .bin-header {
+      border-radius: 16px;
+      padding: 9px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      color: #ffffff;
+      font-weight: 900;
+      font-size: 1.12rem;
+      margin-bottom: 10px;
+    }
+
+    /* Bin Theme Palettes */
+    .theme-sky { border-color: #38bdf8; background: #f0f9ff; }
+    .theme-sky .bin-header { background: #0284c7; }
+
+    .theme-amber { border-color: #fbbf24; background: #fffbeb; }
+    .theme-amber .bin-header { background: #d97706; }
+
+    .theme-blue { border-color: #60a5fa; background: #eff6ff; }
+    .theme-blue .bin-header { background: #2563eb; }
+
+    .theme-orange { border-color: #fb923c; background: #fff7ed; }
+    .theme-orange .bin-header { background: #ea580c; }
+
+    .theme-emerald { border-color: #34d399; background: #ecfdf5; }
+    .theme-emerald .bin-header { background: #059669; }
+
+    .theme-rose { border-color: #fb7185; background: #fff1f2; }
+    .theme-rose .bin-header { background: #e11d48; }
+
+    .theme-slate { border-color: #94a3b8; background: #f8fafc; }
+    .theme-slate .bin-header { background: #475569; }
+
+    .bin-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      flex: 1;
+      align-content: start;
+    }
+
+    .sort-grid-4 .bin-cards-grid {
+      grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
+    }
+
+    .put-here {
+      margin-top: 10px;
+      padding: 12px 8px;
+      border: 3px dashed #2563eb;
+      border-radius: 16px;
+      background: rgba(37, 99, 235, 0.08);
+      color: #1d4ed8;
+      font-weight: 900;
+      font-size: 1rem;
+      text-align: center;
+    }
+
+    .bin-placeholder {
+      grid-column: 1 / -1;
+      height: 120px;
+      border: 3px dashed #cbd5e1;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #64748b;
+      font-weight: 800;
+      font-size: 0.95rem;
+      text-align: center;
+      padding: 8px;
+    }
+
+    /* Sequence Board */
+    .seq-wrap {
+      background: #ffffff;
+      border: 4px solid #7dd3fc;
+      border-radius: 26px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+
+    .seq-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    @media (max-width: 720px) {
+      .seq-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .seq-slot {
+      border-radius: 22px;
+      border: 4px dashed #f59e0b;
+      background: #fffbeb;
+      padding: 12px;
+      min-height: 205px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .seq-slot.filled {
+      border-style: solid;
+      border-color: #38bdf8;
+      background: #f0f9ff;
+    }
+
+    .seq-slot.graded-ok {
+      border-style: solid;
+      border-color: #10b981;
+      background: #ecfdf5;
+    }
+
+    .seq-slot.graded-bad {
+      border-style: solid;
+      border-color: #f43f5e;
+      background: #fff1f2;
+    }
+
+    .seq-slot-top {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .step-badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      background: #f59e0b;
+      color: #ffffff;
+      font-weight: 900;
+      font-size: 1.05rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Pattern Board */
+    .pattern-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .pattern-row {
+      background: #ffffff;
+      border: 4px solid #bae6fd;
+      border-radius: 24px;
+      padding: 12px 14px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .pattern-seq {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      max-width: 100%;
+      padding-bottom: 2px;
+    }
+
+    .pattern-clue {
+      width: 76px;
+      height: 92px;
+      border-radius: 16px;
+      background: #fffbeb;
+      border: 2px solid #fde68a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+      flex-shrink: 0;
+    }
+
+    .pattern-clue svg {
+      width: 48px;
+      height: 48px;
+    }
+
+    .pattern-clue span {
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: capitalize;
+      color: #334155;
+      text-align: center;
+      line-height: 1.1;
+    }
+
+    .pattern-slot {
+      width: 126px;
+      height: 126px;
+      border-radius: 20px;
+      border: 4px dashed #38bdf8;
+      background: #f0f9ff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      padding: 4px;
+      flex-shrink: 0;
+      transition: all 0.15s ease;
+    }
+
+    .pattern-slot.filled {
+      border-style: solid;
+      border-color: #0284c7;
+    }
+
+    .pattern-slot.graded-ok {
+      border-style: solid;
+      border-color: #10b981;
+      background: #ecfdf5;
+    }
+
+    .pattern-slot.graded-bad {
+      border-style: solid;
+      border-color: #f43f5e;
+      background: #fff1f2;
+    }
+
+    /* Picture Cards (Tray & Placed) */
+    .tray-box {
+      background: #ffffff;
+      border: 4px solid #cbd5e1;
+      border-radius: 26px;
+      padding: 14px;
+      box-shadow: 0 3px 10px rgba(15, 23, 42, 0.05);
+    }
+
+    .tray-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .tray-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(125px, 1fr));
+      gap: 10px;
+      min-height: 120px;
+    }
+
+    .pic-card {
+      background: #ffffff;
+      border: 4px solid #cbd5e1;
+      border-radius: 20px;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 132px;
+      position: relative;
+      cursor: grab;
+      touch-action: none;
+      box-shadow: 0 2px 5px rgba(15, 23, 42, 0.06);
+      transition: transform 0.12s ease, border-color 0.15s ease, background-color 0.15s ease;
+    }
+
+    .pic-card:hover {
+      border-color: #38bdf8;
+    }
+
+    .pic-card.placed {
+      border-color: #38bdf8;
+      width: 100%;
+      min-height: 124px;
+    }
+
+    .pic-card.selected {
+      border-color: #2563eb !important;
+      background: #eff6ff !important;
+      transform: translateY(-4px) scale(1.03);
+      box-shadow: 0 0 0 5px rgba(37, 99, 235, 0.25);
+    }
+
+    .pic-card.card-correct {
+      border-color: #10b981 !important;
+      background: #ecfdf5 !important;
+      cursor: default;
+    }
+
+    .pic-card.card-wrong {
+      border-color: #f43f5e !important;
+      background: #fff1f2 !important;
+      cursor: default;
+    }
+
+    .pic-card svg {
+      width: 66px;
+      height: 66px;
+      pointer-events: none;
+    }
+
+    .card-word-label {
+      font-weight: 900;
+      font-size: 0.95rem;
+      color: #0f172a;
+      text-transform: capitalize;
+      text-align: center;
+      line-height: 1.15;
+      margin-top: 4px;
+      pointer-events: none;
+    }
+
+    .card-speak-mini {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 30px;
+      height: 30px;
+      font-size: 0.85rem;
+      z-index: 5;
+    }
+
+    .grade-badge {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      color: #ffffff;
+      font-weight: 900;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      z-index: 5;
+    }
+
+    .grade-badge.ok {
+      background: #10b981;
+    }
+
+    .grade-badge.bad {
+      background: #f43f5e;
+    }
+
+    .move-hint {
+      font-size: 0.68rem;
+      font-weight: 800;
+      color: #64748b;
+      margin-top: 2px;
+      pointer-events: none;
+    }
+
+    /* Drop Zone Feedback */
+    .drop-ready {
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.25);
+    }
+
+    .drop-hover {
+      border-color: #2563eb !important;
+      background-color: #dbeafe !important;
+      transform: scale(1.015);
+    }
+
+    .drag-ghost {
+      position: fixed;
+      z-index: 9999;
+      pointer-events: none;
+      transform: translate(-50%, -50%) scale(1.08) rotate(2deg);
+      box-shadow: 0 14px 28px rgba(15, 23, 42, 0.25);
+      opacity: 0.95;
+    }
+
+    /* Highlighted Word During TTS */
+    .speaking-highlight {
+      background: #fef08a !important;
+      color: #0f172a !important;
+      border-radius: 8px;
+      padding: 1px 6px;
+      box-shadow: 0 0 0 3px #f59e0b;
+    }
+
+    /* Check Work Button Bar */
+    .check-bar {
+      display: flex;
+      justify-content: center;
+      margin: 14px 0;
+    }
+
+    .btn-check {
+      background: #10b981;
+      border: 4px solid #047857;
+      color: #ffffff;
+      padding: 14px 28px;
+      font-size: 1.25rem;
+      border-radius: 22px;
+      box-shadow: 0 4px 0 #065f46;
+    }
+
+    .btn-check.partial {
+      background: #0284c7;
+      border-color: #0369a1;
+      box-shadow: 0 4px 0 #075985;
+      font-size: 1.1rem;
+    }
+
+    /* Result / Mark Banner */
+    .result-banner {
+      border-radius: 26px;
+      border: 4px solid #ffffff;
+      padding: 20px;
+      text-align: center;
+      color: #ffffff;
+      margin-top: 14px;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.16);
+    }
+
+    .result-banner.perfect {
+      background: linear-gradient(135deg, #10b981, #0284c7);
+    }
+
+    .result-banner.partial {
+      background: linear-gradient(135deg, #f59e0b, #ea580c);
+    }
+
+    .mark-box {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #ffffff;
+      color: #0f172a;
+      padding: 8px 20px;
+      border-radius: 18px;
+      font-weight: 900;
+      margin: 8px 0;
+    }
+
+    .result-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      background: rgba(15, 23, 42, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+    }
+
+    .modal-card {
+      background: #ffffff;
+      border: 4px solid #38bdf8;
+      border-radius: 26px;
+      max-width: 760px;
+      width: 100%;
+      max-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+    }
+
+    .modal-header {
+      background: #0284c7;
+      color: #ffffff;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .modal-summary {
+      background: #f0f9ff;
+      border-bottom: 2px solid #bae6fd;
+      padding: 14px 18px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .name-input {
+      width: 100%;
+      padding: 8px 12px;
+      border-radius: 12px;
+      border: 2px solid #7dd3fc;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-top: 4px;
+    }
+
+    .stats-strip {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: #ffffff;
+      border: 2px solid #fcd34d;
+      border-radius: 16px;
+      padding: 8px 14px;
+    }
+
+    .modal-list {
+      padding: 14px 18px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+    }
+
+    .report-row {
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 10px 12px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .modal-footer {
+      background: #f8fafc;
+      border-top: 2px solid #e2e8f0;
+      padding: 12px 18px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    @keyframes wiggle {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-7px); }
+      50% { transform: translateX(7px); }
+      75% { transform: translateX(-5px); }
+    }
+
+    .animate-wiggle {
+      animation: wiggle 0.38s ease-in-out;
+    }
+
+    /* Confetti */
     .confetti-piece {
       position: fixed;
-      width: 12px;
-      height: 12px;
+      width: 11px;
+      height: 11px;
       border-radius: 3px;
+      top: -12px;
+      z-index: 9999;
       pointer-events: none;
-      z-index: 100;
-      animation: confettiFall 2.4s ease-out forwards;
+      animation: confettiFall 2.4s linear forwards;
     }
 
     @keyframes confettiFall {
-      0% {
-        transform: translateY(-20px) rotate(0deg) scale(1);
-        opacity: 1;
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(105vh) rotate(720deg); opacity: 0; }
+    }
+
+    @media print {
+      body * { visibility: hidden; }
+      #reportModal, #reportModal * { visibility: visible; }
+      #reportModal {
+        position: static;
+        background: #ffffff;
+        padding: 0;
       }
-      100% {
-        transform: translateY(100vh) rotate(720deg) scale(0.6);
-        opacity: 0;
+      .modal-card {
+        max-height: none;
+        border: 2px solid #000;
+        box-shadow: none;
       }
     }
   </style>
 </head>
-<body class="text-slate-800">
+<body>
 
-  <!-- Top Navigation & Audio Controls Bar -->
-  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b-4 border-sky-200 shadow-sm">
-    <div class="max-w-7xl mx-auto px-3 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-2">
-      <!-- Brand / Home Trigger -->
-      <div class="flex items-center gap-2 sm:gap-3">
-        <button id="homeBtn" onclick="showMenu()" class="flex items-center gap-2 bg-sky-500 hover:bg-sky-600 active:scale-95 text-white font-display font-bold text-base sm:text-xl px-3.5 py-2.5 rounded-2xl shadow-md transition">
-          <span class="text-2xl">🌤️</span>
+  <!-- TOP NAVIGATION BAR -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand-group">
+        <button onclick="showMenu()" class="btn btn-home">
+          <span style="font-size:1.3rem;">🌤️</span>
           <span>Day &amp; Seasons</span>
         </button>
-        <span id="headerProgressBadge" class="hidden sm:inline-flex items-center gap-1.5 bg-amber-100 border-2 border-amber-300 text-amber-900 font-bold px-3 py-1.5 rounded-xl text-sm">
-          <span>⭐</span>
-          <span id="starsCountText">0 / 16 Done</span>
-        </span>
+        <span id="headerProgressBadge" class="progress-pill">⭐ 0 / 22 Done</span>
       </div>
 
-      <!-- Right Controls: Auto-Read Toggle & Voice Test -->
-      <div class="flex items-center gap-2">
-        <button id="myMarksBtn" onclick="openReportModal()" class="flex items-center gap-2 bg-amber-100 hover:bg-amber-200 border-2 border-amber-400 text-amber-950 font-display font-bold text-sm sm:text-base px-3.5 py-2.5 rounded-2xl transition active:scale-95 shadow-sm" title="View your marks and score card">
-          <span class="text-xl">📋</span>
+      <div class="controls-group">
+        <button onclick="openReportModal()" class="btn btn-marks" title="View your marks">
+          <span>📋</span>
           <span>My Marks</span>
         </button>
-        <button id="autoReadToggle" onclick="toggleAutoRead()" class="flex items-center gap-2 bg-emerald-100 hover:bg-emerald-200 border-2 border-emerald-400 text-emerald-900 font-bold text-sm sm:text-base px-3.5 py-2.5 rounded-2xl transition active:scale-95" title="Turn automatic reading on or off">
-          <span id="autoReadIcon" class="text-xl">🔊</span>
+        <button id="autoReadToggle" onclick="toggleAutoRead()" class="btn btn-read-on" title="Toggle read aloud">
+          <span id="autoReadIcon">🔊</span>
           <span id="autoReadLabel">Auto-Read: ON</span>
+        </button>
+        <button id="speedToggle" onclick="toggleSpeechRate()" class="btn btn-speed" title="Change voice speed">
+          <span>🐢</span>
+          <span id="speedLabel">Normal</span>
+        </button>
+        <button id="sfxToggle" onclick="toggleSfxMute()" class="btn btn-sfx" title="Mute or unmute sound effects" aria-label="Toggle sound effects">
+          <span id="sfxIcon">🔔</span>
         </button>
       </div>
     </div>
   </header>
 
   <!-- MAIN CONTAINER -->
-  <main class="max-w-7xl mx-auto px-3 sm:px-6 py-4 sm:py-6">
+  <main class="main-wrap">
 
-    <!-- ==================== VIEW 1: HOME ACTIVITY MENU ==================== -->
-    <section id="menuView" class="space-y-6">
-      <!-- Welcome Hero Banner -->
-      <div class="bg-white rounded-3xl border-4 border-sky-300 p-4 sm:p-6 shadow-md flex flex-col md:flex-row items-center justify-between gap-4">
-        <div class="flex items-center gap-4 text-center md:text-left">
-          <div class="hidden sm:flex w-16 h-16 rounded-2xl bg-amber-100 border-2 border-amber-300 items-center justify-center text-4xl animate-float shrink-0">
-            🌍
-          </div>
+    <!-- ==================== VIEW 1: ACTIVITY MENU ==================== -->
+    <section id="menuView">
+      <div class="hero-card">
+        <div class="hero-left">
+          <div class="hero-globe">🌍</div>
           <div>
-            <div class="flex items-center justify-center md:justify-start gap-2">
-              <h1 class="text-2xl sm:text-3xl font-bold text-sky-900">Daily &amp; Seasonal Changes</h1>
-              <button onclick="speakText('Welcome to Daily and Seasonal Changes! Tap any activity card below to start learning.')" class="speak-btn w-11 h-11 rounded-full bg-amber-400 hover:bg-amber-500 text-slate-900 flex items-center justify-center text-xl shadow border-2 border-amber-600 shrink-0" aria-label="Read welcome message">
-                🔊
-              </button>
+            <div class="hero-title-row">
+              <h1 class="hero-title">Daily &amp; Seasonal Changes</h1>
+              <button onclick="speakText('Welcome to Daily and Seasonal Changes! Tap any activity card below to start learning.', true)" class="speak-btn" aria-label="Read welcome message">🔊</button>
             </div>
-            <p class="text-slate-600 font-semibold text-base sm:text-lg mt-1">
-              Tap any activity to sort, order, and discover how days and seasons change!
-            </p>
+            <p class="hero-sub">Grade 1 Science • Tap any activity to sort, order, and earn a mark!</p>
           </div>
         </div>
-
-        <!-- Mobile Star Counter -->
-        <div class="flex items-center gap-3 bg-amber-50 border-2 border-amber-300 px-4 py-2.5 rounded-2xl shrink-0">
-          <span class="text-3xl">🏆</span>
+        <div class="stars-box">
+          <span style="font-size:2rem;">🏆</span>
           <div>
-            <div class="text-xs font-extrabold uppercase tracking-wider text-amber-700">Your Stars</div>
-            <div id="menuStarsText" class="text-lg font-display font-bold text-amber-950">0 of 16 Complete</div>
+            <div style="font-size:0.75rem;font-weight:900;color:#b45309;text-transform:uppercase;">Your Progress</div>
+            <div id="menuStarsText" style="font-size:1.1rem;font-weight:900;color:#78350f;">0 of 22 Graded</div>
           </div>
         </div>
       </div>
 
-      <!-- Filter Pills by Unit -->
-      <div class="flex flex-wrap items-center gap-2">
-        <button onclick="filterUnit('ALL')" data-unit="ALL" class="unit-filter-btn bg-sky-600 text-white font-bold px-4 py-2.5 rounded-2xl shadow text-sm sm:text-base transition">
-          All 16 Activities
-        </button>
-        <button onclick="filterUnit('E1')" data-unit="E1" class="unit-filter-btn bg-white hover:bg-sky-50 text-slate-700 border-2 border-slate-200 font-bold px-4 py-2.5 rounded-2xl text-sm sm:text-base transition">
-          🌦️ Weather &amp; Seasons (E1)
-        </button>
-        <button onclick="filterUnit('E2')" data-unit="E2" class="unit-filter-btn bg-white hover:bg-sky-50 text-slate-700 border-2 border-slate-200 font-bold px-4 py-2.5 rounded-2xl text-sm sm:text-base transition">
-          🔄 Cycles &amp; Dressing (E2)
-        </button>
+      <!-- Unit Filter Buttons -->
+      <div class="filter-bar">
+        <button onclick="filterUnit('ALL')" data-unit="ALL" class="filter-btn active">All 22 Activities</button>
+        <button onclick="filterUnit('E1')" data-unit="E1" class="filter-btn">🌦️ Weather, Helpers &amp; Seasons (E1)</button>
+        <button onclick="filterUnit('E2')" data-unit="E2" class="filter-btn">🔄 Cycles, Animals &amp; Dressing (E2)</button>
       </div>
 
-      <!-- Activity Cards Grid -->
-      <div id="activitiesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <!-- Populated dynamically via JS -->
-      </div>
+      <!-- 22 Activity Cards Grid -->
+      <div id="activitiesGrid" class="activities-grid"></div>
     </section>
 
-    <!-- ==================== VIEW 2: INTERACTIVE WORKSPACE ==================== -->
-    <section id="activityView" class="hidden space-y-4">
-      <!-- Top Activity Instruction Bar -->
-      <div class="bg-white rounded-3xl border-4 border-amber-300 p-3.5 sm:p-5 shadow-md flex flex-col sm:flex-row items-center justify-between gap-3">
-        <div class="flex items-center gap-3 w-full sm:w-auto">
-          <button onclick="showMenu()" class="bg-slate-100 hover:bg-slate-200 active:scale-95 border-2 border-slate-300 text-slate-800 font-bold px-3.5 py-2.5 rounded-2xl flex items-center gap-1.5 shrink-0 text-sm sm:text-base">
-            <span>⬅️</span>
-            <span>Activities</span>
-          </button>
-          <div class="flex-1">
-            <div class="flex items-center gap-2">
-              <span id="actBadge" class="bg-sky-100 text-sky-800 font-extrabold text-xs px-2.5 py-0.5 rounded-lg border border-sky-300">E1.1</span>
-              <h2 id="actTitle" class="text-xl sm:text-2xl font-bold text-slate-900">Activity Title</h2>
+    <!-- ==================== VIEW 2: INTERACTIVE ACTIVITY BOARD ==================== -->
+    <section id="activityView" class="hidden">
+      <div class="workspace-header">
+        <div class="workspace-header-row">
+          <div class="workspace-left">
+            <button onclick="showMenu()" class="btn btn-back">
+              <span>⬅️</span>
+              <span>Activities</span>
+            </button>
+            <div>
+              <span id="actBadge" class="code-badge">#1 • E1.1</span>
+              <h2 id="actTitle" class="workspace-title">Activity Title</h2>
+              <p id="actInstruction" class="workspace-inst">Instructions go here.</p>
             </div>
-            <p id="actInstruction" class="text-slate-700 font-bold text-base sm:text-lg mt-0.5">
-              Instruction goes here.
-            </p>
+          </div>
+
+          <div class="controls-group">
+            <button onclick="readCurrentInstruction()" class="btn btn-read-dir">
+              <span>🔊</span>
+              <span>Read Directions</span>
+            </button>
+            <button onclick="toggleTeacherPrompt()" class="btn btn-teacher">
+              <span>🍎</span>
+              <span>Teacher Prompt</span>
+            </button>
+            <button onclick="resetCurrentActivity()" class="btn btn-reset">
+              <span>🔄</span>
+              <span>Reset</span>
+            </button>
           </div>
         </div>
 
-        <div class="flex items-center gap-2 self-end sm:self-center shrink-0">
-          <!-- Big Read Aloud Instruction Button -->
-          <button id="readInstructionBtn" onclick="readCurrentInstruction()" class="speak-btn flex items-center gap-2 bg-amber-400 hover:bg-amber-500 border-2 border-amber-600 text-slate-950 font-display font-bold px-4 py-3 rounded-2xl shadow text-base sm:text-lg">
-            <span class="text-2xl">🔊</span>
-            <span>Read Directions</span>
-          </button>
-          <!-- Reset Activity Button -->
-          <button onclick="resetCurrentActivity()" class="bg-rose-50 hover:bg-rose-100 active:scale-95 border-2 border-rose-300 text-rose-800 font-bold px-3.5 py-3 rounded-2xl text-sm sm:text-base" title="Start this activity over">
-            🔄 Reset
-          </button>
+        <!-- Collapsible Grade 1 Curriculum Prompt -->
+        <div id="teacherPromptBox" class="teacher-drawer hidden">
+          <div>
+            <div id="teacherExpectationLabel" style="font-size:0.75rem;font-weight:900;color:#4338ca;text-transform:uppercase;">Ontario Grade 1 Science</div>
+            <div id="teacherPromptText" style="font-weight:800;color:#1e1b4b;margin-top:2px;">Prompt</div>
+          </div>
+          <button onclick="speakText(document.getElementById('teacherPromptText').textContent, true)" class="speak-btn" aria-label="Read teacher prompt">🔊</button>
         </div>
       </div>
 
-      <!-- Helper Hint Banner for Tap or Drag -->
-      <div id="helperTipBar" class="bg-sky-50 border-2 border-sky-200 rounded-2xl px-4 py-2 text-center text-sky-900 font-bold text-sm sm:text-base flex items-center justify-center gap-2">
-        <span>👆</span>
-        <span id="helperTipText">Tap a picture card below, then tap where it belongs (or drag it)!</span>
+      <!-- Helper Instruction Strip -->
+      <div class="helper-bar">
+        <span id="helperTipText">👆 Tap a picture card below, then tap where it belongs (or drag it)!</span>
       </div>
 
-      <!-- BOARD AREA (Dynamic: 2-Column Sort, 4-Column Sort, 4-Step Sequence, or 3-Row Pattern) -->
-      <div id="boardContainer" class="w-full">
-        <!-- Rendered dynamically -->
-      </div>
+      <!-- Dynamic Activity Board -->
+      <div id="boardContainer"></div>
 
-      <!-- CHECK MY WORK BAR (Visible while placing cards) -->
-      <div id="checkWorkBar" class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-1">
-        <button id="checkWorkBtn" onclick="gradeCurrentActivity()" class="w-full sm:w-auto flex items-center justify-center gap-3 bg-emerald-500 hover:bg-emerald-600 active:scale-95 border-4 border-emerald-700 text-white font-display font-bold text-xl sm:text-2xl px-8 py-4 rounded-3xl shadow-lg transition">
-          <span class="text-2xl sm:text-3xl">✅</span>
+      <!-- Check My Work Bar -->
+      <div id="checkWorkBar" class="check-bar">
+        <button id="checkWorkBtn" onclick="gradeCurrentActivity()" class="btn btn-check">
+          <span>✅</span>
           <span>Check My Work!</span>
         </button>
       </div>
 
-      <!-- CARD TRAY (Mixed-Up Cards to Sort/Place) -->
-      <div id="trayWrapper" data-drop-target="TRAY" class="drop-zone bg-white/95 rounded-3xl border-4 border-slate-300 p-4 shadow-md transition-all">
-        <div class="flex items-center justify-between mb-3">
-          <div class="flex items-center gap-2">
-            <span class="text-xl">🃏</span>
-            <h3 class="font-display font-bold text-lg text-slate-800">Picture Cards</h3>
-            <span id="remainingBadge" class="bg-sky-100 text-sky-800 text-xs font-extrabold px-2.5 py-1 rounded-full">8 left</span>
+      <!-- Picture Card Tray -->
+      <div id="trayWrapper" data-drop-target="TRAY" class="tray-box">
+        <div class="tray-header">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="font-size:1.3rem;">🃏</span>
+            <strong style="font-size:1.1rem;">Picture Cards</strong>
+            <span id="remainingBadge" class="code-badge">8 left</span>
           </div>
-          <span class="text-xs sm:text-sm font-bold text-slate-500">Tap 🔊 on any card to hear the word</span>
+          <span style="font-size:0.85rem;font-weight:700;color:#64748b;">Tap 🔊 on any card to hear the word</span>
         </div>
-        <div id="cardTray" class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3 min-h-[120px] place-items-center">
-          <!-- Draggable / Tappable Cards rendered here -->
-        </div>
+        <div id="cardTray" class="tray-grid"></div>
       </div>
 
-      <!-- MARK & FEEDBACK BANNER (Shown after pressing Check My Work!) -->
-      <div id="completionBanner" class="hidden rounded-3xl p-5 sm:p-6 shadow-xl border-4 border-white text-center space-y-4 animate-pop">
-        <div id="resultStarsDisplay" class="text-4xl sm:text-6xl tracking-wider">⭐⭐⭐</div>
-        <div class="inline-flex items-center gap-3 bg-white/95 text-slate-900 px-6 py-2.5 rounded-2xl shadow-md border-2 border-slate-200">
-          <span class="font-display font-bold text-lg sm:text-xl text-slate-600">Your Mark:</span>
-          <span id="markFractionText" class="font-display font-extrabold text-3xl sm:text-4xl text-sky-700">8 / 8</span>
-          <span id="markPercentBadge" class="bg-emerald-100 text-emerald-900 font-extrabold text-base sm:text-lg px-3 py-1 rounded-xl">100%</span>
+      <!-- Grading & Mark Feedback Banner -->
+      <div id="completionBanner" class="result-banner hidden">
+        <div id="resultStarsDisplay" style="font-size:2.8rem;">⭐⭐⭐</div>
+        <div class="mark-box">
+          <span style="color:#475569;">Your Mark:</span>
+          <span id="markFractionText" style="font-size:1.7rem;color:#0369a1;">8 / 8</span>
+          <span id="markPercentBadge" style="background:#d1fae5;color:#065f46;padding:3px 10px;border-radius:10px;">100%</span>
         </div>
-        <h3 id="resultHeading" class="text-2xl sm:text-4xl font-display font-bold text-white">Awesome Job!</h3>
-        <p id="completionMessage" class="text-lg sm:text-xl font-bold text-white/95 max-w-2xl mx-auto">
-          You got 8 out of 8!
-        </p>
-        <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
-          <button onclick="readCompletionMessage()" class="speak-btn bg-amber-400 hover:bg-amber-500 text-slate-950 font-display font-bold px-5 py-3.5 rounded-2xl shadow-lg text-lg flex items-center gap-2">
+        <h3 id="resultHeading" style="margin:6px 0;font-size:1.75rem;font-weight:900;">Awesome Job!</h3>
+        <p id="completionMessage" style="margin:0;font-size:1.1rem;font-weight:700;">You got 8 out of 8!</p>
+
+        <div class="result-actions">
+          <button onclick="readCompletionMessage()" class="btn btn-read-dir">
             <span>🔊</span>
             <span>Hear Mark</span>
           </button>
-          <button id="fixMistakesBtn" onclick="fixMistakes()" class="hidden bg-rose-500 hover:bg-rose-600 border-2 border-white text-white font-display font-bold px-6 py-3.5 rounded-2xl shadow-lg text-lg flex items-center gap-2 active:scale-95 transition">
+          <button id="fixMistakesBtn" onclick="fixMistakes()" class="btn hidden" style="background:#e11d48;border-color:#ffffff;color:#ffffff;padding:10px 18px;font-size:1rem;">
             <span>🛠️</span>
             <span>Fix Mistakes</span>
           </button>
-          <button onclick="resetCurrentActivity()" class="bg-white/20 hover:bg-white/30 border-2 border-white/60 text-white font-display font-bold px-5 py-3.5 rounded-2xl text-base sm:text-lg active:scale-95 transition">
-            🔄 Try Again
+          <button onclick="resetCurrentActivity()" class="btn" style="background:rgba(255,255,255,0.22);border-color:#ffffff;color:#ffffff;padding:10px 16px;font-size:1rem;">
+            <span>🔄</span>
+            <span>Try Again</span>
           </button>
-          <button onclick="goToNextActivity()" id="nextActivityBtn" class="bg-white hover:bg-sky-50 text-sky-900 font-display font-bold px-6 py-3.5 rounded-2xl shadow-lg text-lg flex items-center gap-2 active:scale-95 transition">
+          <button onclick="goToNextActivity()" class="btn" style="background:#ffffff;color:#0c4a6e;padding:10px 18px;font-size:1.05rem;">
             <span>Next Activity</span>
             <span>➡️</span>
           </button>
-          <button onclick="showMenu()" class="bg-slate-900/35 hover:bg-slate-900/50 text-white font-bold px-5 py-3.5 rounded-2xl text-base">
+          <button onclick="showMenu()" class="btn" style="background:rgba(15,23,42,0.35);color:#ffffff;padding:10px 16px;font-size:0.95rem;">
             All Activities
           </button>
         </div>
       </div>
     </section>
-
   </main>
 
-  <!-- ==================== MY MARKS / REPORT CARD MODAL ==================== -->
-  <div id="reportModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
-    <div class="bg-white rounded-3xl border-4 border-sky-400 shadow-2xl max-w-3xl w-full max-h-[90vh] flex flex-col overflow-hidden animate-pop">
-      <!-- Modal Header -->
-      <div class="bg-sky-500 text-white px-5 py-4 flex items-center justify-between gap-3">
-        <div class="flex items-center gap-2.5">
-          <span class="text-3xl">📋</span>
+  <!-- ==================== MY MARKS / REPORT MODAL ==================== -->
+  <div id="reportModal" class="modal-backdrop hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:1.8rem;">📋</span>
           <div>
-            <h2 class="font-display font-bold text-xl sm:text-2xl">My Science Marks</h2>
-            <p class="text-sky-100 text-xs sm:text-sm font-bold">Grade 1 • Daily &amp; Seasonal Changes</p>
+            <h2 style="margin:0;font-size:1.35rem;font-weight:900;">My Science Marks</h2>
+            <div style="font-size:0.82rem;font-weight:700;color:#e0f2fe;">Grade 1 • Daily &amp; Seasonal Changes</div>
           </div>
         </div>
-        <div class="flex items-center gap-2">
-          <button onclick="readReportSummary()" class="speak-btn bg-amber-400 hover:bg-amber-500 text-slate-950 font-display font-bold px-3.5 py-2 rounded-xl text-sm sm:text-base flex items-center gap-1.5 shadow">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <button onclick="readReportSummary()" class="btn btn-read-dir" style="padding:7px 12px;font-size:0.9rem;">
             <span>🔊</span>
             <span>Read Score</span>
           </button>
-          <button onclick="closeReportModal()" class="bg-white/20 hover:bg-white/30 text-white font-bold w-10 h-10 rounded-xl text-xl flex items-center justify-center" aria-label="Close marks window">
-            ✕
-          </button>
+          <button onclick="closeReportModal()" class="btn" style="background:rgba(255,255,255,0.2);color:#ffffff;width:38px;height:38px;font-size:1.1rem;" aria-label="Close">✕</button>
         </div>
       </div>
 
-      <!-- Student Name & Overall Summary -->
-      <div class="p-4 sm:p-5 bg-sky-50 border-b-2 border-sky-200 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div class="w-full sm:w-auto flex-1">
-          <label for="studentNameInput" class="block text-xs font-extrabold uppercase tracking-wider text-sky-900 mb-1">Student Name</label>
-          <input id="studentNameInput" type="text" placeholder="Type your name here..." oninput="saveStudentName(this.value)" class="w-full bg-white border-2 border-sky-300 focus:border-sky-600 focus:outline-none rounded-xl px-3.5 py-2 font-bold text-slate-800 text-base" />
+      <div class="modal-summary">
+        <div style="flex:1 1 220px;">
+          <label for="studentNameInput" style="font-size:0.75rem;font-weight:900;color:#0c4a6e;text-transform:uppercase;">Student Name</label>
+          <input id="studentNameInput" type="text" placeholder="Type your name here..." oninput="saveStudentName(this.value)" class="name-input" />
         </div>
-        <div class="flex items-center gap-3 bg-white border-2 border-amber-300 rounded-2xl px-4 py-2.5 shadow-sm w-full sm:w-auto justify-around">
-          <div class="text-center">
-            <div class="text-[11px] font-extrabold uppercase text-slate-500">Completed</div>
-            <div id="reportCompletedCount" class="font-display font-bold text-lg text-sky-800">0 / 16</div>
+        <div class="stats-strip">
+          <div style="text-align:center;">
+            <div style="font-size:0.7rem;font-weight:900;color:#64748b;text-transform:uppercase;">Completed</div>
+            <div id="reportCompletedCount" style="font-size:1.05rem;font-weight:900;color:#0c4a6e;">0 / 22</div>
           </div>
-          <div class="h-8 w-0.5 bg-slate-200"></div>
-          <div class="text-center">
-            <div class="text-[11px] font-extrabold uppercase text-slate-500">Total Points</div>
-            <div id="reportTotalPoints" class="font-display font-bold text-lg text-emerald-700">0 / 0</div>
+          <div style="width:2px;height:28px;background:#e2e8f0;"></div>
+          <div style="text-align:center;">
+            <div style="font-size:0.7rem;font-weight:900;color:#64748b;text-transform:uppercase;">1st Try Avg</div>
+            <div id="reportFirstTryAvg" style="font-size:1.05rem;font-weight:900;color:#4338ca;">—</div>
           </div>
-          <div class="h-8 w-0.5 bg-slate-200"></div>
-          <div class="text-center">
-            <div class="text-[11px] font-extrabold uppercase text-slate-500">Average</div>
-            <div id="reportAveragePct" class="font-display font-bold text-lg text-amber-600">—</div>
+          <div style="width:2px;height:28px;background:#e2e8f0;"></div>
+          <div style="text-align:center;">
+            <div style="font-size:0.7rem;font-weight:900;color:#64748b;text-transform:uppercase;">Best Score</div>
+            <div id="reportTotalPoints" style="font-size:1.05rem;font-weight:900;color:#047857;">0 / 0</div>
           </div>
         </div>
       </div>
 
-      <!-- Scrollable List of All 16 Activities & Marks -->
-      <div id="reportListContainer" class="p-4 sm:p-5 overflow-y-auto space-y-2.5 flex-1">
-        <!-- Populated dynamically -->
-      </div>
+      <div id="reportListContainer" class="modal-list"></div>
 
-      <!-- Modal Footer Actions -->
-      <div class="p-4 bg-slate-50 border-t-2 border-slate-200 flex flex-wrap items-center justify-between gap-2">
-        <button onclick="confirmClearAllMarks()" id="clearMarksBtn" class="bg-rose-100 hover:bg-rose-200 text-rose-800 border-2 border-rose-300 font-bold px-4 py-2.5 rounded-xl text-sm transition">
-          🗑️ Reset All Marks
-        </button>
-        <div class="flex items-center gap-2">
-          <button onclick="window.print()" class="bg-sky-600 hover:bg-sky-700 text-white font-display font-bold px-4 py-2.5 rounded-xl text-sm sm:text-base flex items-center gap-1.5 shadow">
-            <span>🖨️</span>
-            <span>Print Report</span>
-          </button>
-          <button onclick="closeReportModal()" class="bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold px-5 py-2.5 rounded-xl text-sm sm:text-base">
-            Done
-          </button>
+      <div class="modal-footer">
+        <button id="clearMarksBtn" onclick="confirmClearAllMarks()" class="btn btn-reset">🗑️ Reset All Marks</button>
+        <div style="display:flex;gap:8px;">
+          <button onclick="window.print()" class="btn btn-home" style="padding:8px 14px;font-size:0.95rem;">🖨️ Print Report</button>
+          <button onclick="closeReportModal()" class="btn btn-back">Done</button>
         </div>
       </div>
     </div>
@@ -389,430 +1372,88 @@
 
   <script>
     /* ============================================================================
-       1. INLINE VECTOR ILLUSTRATIONS (Clean Bold-Outline Style Matching PDF)
+       1. CRISP INLINE SVG ILLUSTRATIONS FOR ALL 22 ACTIVITIES
        ============================================================================ */
     const ICONS = {
-      'beach ball': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <circle cx="50" cy="50" r="38" fill="#ef4444" stroke="#1e293b" stroke-width="4.5"/>
-          <path d="M50 12 C32 28, 32 72, 50 88 C68 72, 68 28, 50 12 Z" fill="#3b82f6" stroke="#1e293b" stroke-width="4"/>
-          <path d="M14 40 C30 30, 70 30, 86 40" fill="none" stroke="#1e293b" stroke-width="4"/>
-          <circle cx="50" cy="34" r="9" fill="#facc15" stroke="#1e293b" stroke-width="4"/>
-        </svg>`,
-
-      'snowman': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <circle cx="50" cy="68" r="22" fill="#ffffff" stroke="#1e293b" stroke-width="4"/>
-          <circle cx="50" cy="39" r="15" fill="#ffffff" stroke="#1e293b" stroke-width="4"/>
-          <!-- Arms -->
-          <path d="M35 45 L16 34 M22 37 L18 29 M22 37 L14 41" stroke="#78350f" stroke-width="3.5" stroke-linecap="round"/>
-          <path d="M65 45 L84 34 M78 37 L82 29 M78 37 L86 41" stroke="#78350f" stroke-width="3.5" stroke-linecap="round"/>
-          <!-- Hat -->
-          <rect x="33" y="22" width="34" height="5" rx="2.5" fill="#1e293b"/>
-          <rect x="39" y="9" width="22" height="14" rx="2" fill="#1e293b"/>
-          <rect x="39" y="18" width="22" height="3.5" fill="#ef4444"/>
-          <!-- Face & Buttons -->
-          <circle cx="45" cy="36" r="2.2" fill="#1e293b"/>
-          <circle cx="55" cy="36" r="2.2" fill="#1e293b"/>
-          <polygon points="50,39 66,42 50,45" fill="#f97316" stroke="#1e293b" stroke-width="2"/>
-          <circle cx="50" cy="60" r="2.5" fill="#1e293b"/>
-          <circle cx="50" cy="69" r="2.5" fill="#1e293b"/>
-          <circle cx="50" cy="78" r="2.5" fill="#1e293b"/>
-        </svg>`,
-
-      'sunglasses': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <path d="M12 40 L88 40" stroke="#1e293b" stroke-width="5" stroke-linecap="round"/>
-          <path d="M15 40 L44 40 L41 62 C40 67, 20 67, 18 62 Z" fill="#1e293b" stroke="#0f172a" stroke-width="4"/>
-          <path d="M56 40 L85 40 L82 62 C80 67, 60 67, 59 62 Z" fill="#1e293b" stroke="#0f172a" stroke-width="4"/>
-          <path d="M22 46 L30 46 L25 57" stroke="#94a3b8" stroke-width="3" stroke-linecap="round" fill="none"/>
-          <path d="M63 46 L71 46 L66 57" stroke="#94a3b8" stroke-width="3" stroke-linecap="round" fill="none"/>
-        </svg>`,
-
-      'snow boots': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <!-- Left Boot -->
-          <path d="M20 26 L42 26 L42 74 L14 74 C14 64, 20 62, 20 56 Z" fill="#92400e" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/>
-          <rect x="18" y="21" width="26" height="9" rx="4" fill="#fde68a" stroke="#1e293b" stroke-width="3.5"/>
-          <rect x="13" y="72" width="30" height="6" rx="2" fill="#1e293b"/>
-          <!-- Right Boot -->
-          <path d="M58 26 L80 26 L80 56 C80 62, 86 64, 86 74 L58 74 Z" fill="#92400e" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/>
-          <rect x="56" y="21" width="26" height="9" rx="4" fill="#fde68a" stroke="#1e293b" stroke-width="3.5"/>
-          <rect x="57" y="72" width="30" height="6" rx="2" fill="#1e293b"/>
-        </svg>`,
-
-      'winter coat': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <path d="M35 20 L65 20 L84 44 L75 53 L67 42 L67 82 L33 82 L33 42 L25 53 L16 44 Z" fill="#2563eb" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/>
-          <path d="M38 18 C38 12, 62 12, 62 18 L60 25 L40 25 Z" fill="#93c5fd" stroke="#1e293b" stroke-width="3.5"/>
-          <line x1="50" y1="25" x2="50" y2="82" stroke="#1e293b" stroke-width="3.5"/>
-          <circle cx="45" cy="38" r="2.2" fill="#1e293b"/>
-          <circle cx="45" cy="52" r="2.2" fill="#1e293b"/>
-          <circle cx="45" cy="66" r="2.2" fill="#1e293b"/>
-        </svg>`,
-
-      'sled': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <path d="M16 70 L76 70 C85 70, 88 58, 80 54" fill="none" stroke="#78350f" stroke-width="5" stroke-linecap="round"/>
-          <line x1="30" y1="54" x2="30" y2="70" stroke="#78350f" stroke-width="4.5"/>
-          <line x1="62" y1="54" x2="62" y2="70" stroke="#78350f" stroke-width="4.5"/>
-          <rect x="16" y="46" width="60" height="9" rx="4" fill="#d97706" stroke="#1e293b" stroke-width="3.5"/>
-          <path d="M74 49 Q84 45 81 55" fill="none" stroke="#f59e0b" stroke-width="3"/>
-        </svg>`,
-
-      'bucket': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <!-- Shovel inside -->
-          <rect x="54" y="18" width="6" height="26" rx="2" fill="#facc15" stroke="#1e293b" stroke-width="3" transform="rotate(15 57 30)"/>
-          <rect x="52" y="13" width="12" height="7" rx="3" fill="none" stroke="#1e293b" stroke-width="3" transform="rotate(15 57 16)"/>
-          <!-- Bucket body -->
-          <polygon points="26,38 74,38 67,84 33,84" fill="#ef4444" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/>
-          <rect x="23" y="34" width="54" height="8" rx="4" fill="#dc2626" stroke="#1e293b" stroke-width="3.5"/>
-          <path d="M28 42 C28 62, 72 62, 72 42" fill="none" stroke="#1e293b" stroke-width="3.5"/>
-        </svg>`,
-
-      'ice cream': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <polygon points="33,48 67,48 50,88" fill="#d97706" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/>
-          <line x1="41" y1="55" x2="57" y2="71" stroke="#92400e" stroke-width="2.5"/>
-          <line x1="59" y1="55" x2="43" y2="71" stroke="#92400e" stroke-width="2.5"/>
-          <path d="M31 48 C26 40, 34 32, 40 32 C37 23, 48 14, 55 16 C52 22, 65 24, 63 33 C70 35, 72 43, 67 48 Z" fill="#f472b6" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/>
-        </svg>`,
-
-      'rain cloud': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <path d="M26 56 C16 56, 12 44, 21 38 C22 25, 38 20, 48 28 C56 20, 74 24, 75 38 C85 41, 84 56, 72 56 Z" fill="#94a3b8" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/>
-          <path d="M32 65 L28 76 M46 67 L42 78 M60 65 L56 76 M38 80 L35 88 M53 80 L50 88" stroke="#0284c7" stroke-width="4.5" stroke-linecap="round"/>
-        </svg>`,
-
-      'sun hat': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <ellipse cx="50" cy="62" rx="40" ry="13" fill="#facc15" stroke="#1e293b" stroke-width="4"/>
-          <path d="M29 60 C29 34, 71 34, 71 60" fill="#fde047" stroke="#1e293b" stroke-width="4"/>
-          <path d="M30 53 Q50 58 70 53" fill="none" stroke="#ef4444" stroke-width="5"/>
-        </svg>`,
-
-      'rainbow': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <path d="M14 72 A36 36 0 0 1 86 72" fill="none" stroke="#ef4444" stroke-width="7" stroke-linecap="round"/>
-          <path d="M21 72 A29 29 0 0 1 79 72" fill="none" stroke="#f97316" stroke-width="7" stroke-linecap="round"/>
-          <path d="M28 72 A22 22 0 0 1 72 72" fill="none" stroke="#facc15" stroke-width="7" stroke-linecap="round"/>
-          <path d="M35 72 A15 15 0 0 1 65 72" fill="none" stroke="#22c55e" stroke-width="7" stroke-linecap="round"/>
-          <path d="M42 72 A8 8 0 0 1 58 72" fill="none" stroke="#3b82f6" stroke-width="7" stroke-linecap="round"/>
-        </svg>`,
-
-      'rain boots': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <path d="M22 24 L42 24 L42 74 L14 74 C14 64, 22 62, 22 55 Z" fill="#22c55e" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/>
-          <rect x="13" y="72" width="30" height="6" rx="2" fill="#15803d" stroke="#1e293b" stroke-width="3"/>
-          <path d="M58 24 L78 24 L78 55 C78 62, 86 64, 86 74 L58 74 Z" fill="#22c55e" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/>
-          <rect x="57" y="72" width="30" height="6" rx="2" fill="#15803d" stroke="#1e293b" stroke-width="3"/>
-        </svg>`,
-
-      't-shirt': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <path d="M34 22 L66 22 L86 38 L76 50 L66 42 L66 80 L34 80 L34 42 L24 50 L14 38 Z" fill="#facc15" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/>
-          <path d="M40 22 Q50 32 60 22" fill="none" stroke="#1e293b" stroke-width="3.5"/>
-        </svg>`,
-
-      'umbrella': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <path d="M50 15 L50 76 C50 84, 38 84, 38 76" fill="none" stroke="#78350f" stroke-width="4.5" stroke-linecap="round"/>
-          <path d="M14 52 C14 26, 86 26, 86 52 C74 46, 62 46, 50 52 C38 46, 26 46, 14 52 Z" fill="#ef4444" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/>
-        </svg>`,
-
-      'flower': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <line x1="50" y1="48" x2="50" y2="86" stroke="#16a34a" stroke-width="5" stroke-linecap="round"/>
-          <path d="M50 72 C34 72, 28 58, 36 54 C44 54, 48 64, 50 72 Z" fill="#22c55e" stroke="#1e293b" stroke-width="3.5"/>
-          <path d="M50 72 C66 72, 72 58, 64 54 C56 54, 52 64, 50 72 Z" fill="#22c55e" stroke="#1e293b" stroke-width="3.5"/>
-          <path d="M33 34 C33 20, 40 18, 43 26 L50 16 L57 26 C60 18, 67 20, 67 34 C67 46, 58 50, 50 50 C42 50, 33 46, 33 34 Z" fill="#f472b6" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/>
-        </svg>`,
-
-      'acorn': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <path d="M30 42 L70 42 C70 66, 58 80, 50 85 C42 80, 30 66, 30 42 Z" fill="#b45309" stroke="#1e293b" stroke-width="4"/>
-          <path d="M25 42 C25 26, 75 26, 75 42 Z" fill="#78350f" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/>
-          <path d="M50 28 L53 17" stroke="#78350f" stroke-width="5" stroke-linecap="round"/>
-        </svg>`,
-
-      'squirrel': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <!-- Big bushy tail -->
-          <path d="M58 76 C84 78, 92 46, 78 30 C68 20, 56 30, 62 44 C66 52, 56 56, 54 64" fill="#d97706" stroke="#1e293b" stroke-width="4" stroke-linecap="round"/>
-          <!-- Body & Head -->
-          <ellipse cx="44" cy="64" rx="16" ry="18" fill="#b45309" stroke="#1e293b" stroke-width="4"/>
-          <circle cx="40" cy="40" r="13" fill="#b45309" stroke="#1e293b" stroke-width="4"/>
-          <ellipse cx="35" cy="27" rx="4" ry="7" fill="#b45309" stroke="#1e293b" stroke-width="3.5"/>
-          <ellipse cx="45" cy="27" rx="4" ry="7" fill="#b45309" stroke="#1e293b" stroke-width="3.5"/>
-          <circle cx="35" cy="38" r="2.3" fill="#1e293b"/>
-          <circle cx="28" cy="42" r="2.2" fill="#1e293b"/>
-          <path d="M26 58 L38 58" stroke="#1e293b" stroke-width="4" stroke-linecap="round"/>
-          <ellipse cx="44" cy="81" rx="12" ry="4.5" fill="#78350f" stroke="#1e293b" stroke-width="3.5"/>
-        </svg>`,
-
-      'pumpkin': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <path d="M47 28 C47 18, 55 15, 58 20" fill="none" stroke="#15803d" stroke-width="5" stroke-linecap="round"/>
-          <ellipse cx="32" cy="56" rx="16" ry="25" fill="#ea580c" stroke="#1e293b" stroke-width="4"/>
-          <ellipse cx="68" cy="56" rx="16" ry="25" fill="#ea580c" stroke="#1e293b" stroke-width="4"/>
-          <ellipse cx="50" cy="56" rx="16" ry="27" fill="#f97316" stroke="#1e293b" stroke-width="4"/>
-        </svg>`,
-
-      'leaves': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <line x1="50" y1="68" x2="50" y2="88" stroke="#78350f" stroke-width="4.5" stroke-linecap="round"/>
-          <path d="M50 14 L58 34 L76 28 L68 46 L86 52 L64 66 L68 74 L50 68 L32 74 L36 66 L14 52 L32 46 L24 28 L42 34 Z" fill="#ef4444" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/>
-        </svg>`,
-
-      'butterfly': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <path d="M46 34 L38 20 M54 34 L62 20" stroke="#1e293b" stroke-width="3.5" stroke-linecap="round"/>
-          <path d="M48 44 C26 20, 12 36, 22 52 C14 64, 28 78, 48 64 Z" fill="#fb923c" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/>
-          <path d="M52 44 C74 20, 88 36, 78 52 C86 64, 72 78, 52 64 Z" fill="#fb923c" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/>
-          <circle cx="30" cy="42" r="4" fill="#fef08a"/>
-          <circle cx="70" cy="42" r="4" fill="#fef08a"/>
-          <rect x="46" y="32" width="8" height="40" rx="4" fill="#78350f" stroke="#1e293b" stroke-width="3.5"/>
-        </svg>`,
-
-      'bird': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <polygon points="74,42 88,46 74,51" fill="#facc15" stroke="#1e293b" stroke-width="3.5" stroke-linejoin="round"/>
-          <path d="M26 56 L12 48 L16 62 L12 68 L28 64 Z" fill="#2563eb" stroke="#1e293b" stroke-width="3.5" stroke-linejoin="round"/>
-          <path d="M26 56 C26 36, 52 28, 66 36 C76 42, 76 62, 62 70 C46 78, 26 70, 26 56 Z" fill="#3b82f6" stroke="#1e293b" stroke-width="4"/>
-          <path d="M38 54 C46 46, 58 50, 56 60 C48 64, 38 60, 38 54 Z" fill="#93c5fd" stroke="#1e293b" stroke-width="3"/>
-          <circle cx="62" cy="43" r="3" fill="#1e293b"/>
-        </svg>`,
-
-      'cold': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <path d="M42 20 A8 8 0 0 1 58 20 L58 60 A16 16 0 1 1 42 60 Z" fill="#ffffff" stroke="#1e293b" stroke-width="4"/>
-          <circle cx="50" cy="72" r="10" fill="#3b82f6"/>
-          <rect x="47" y="48" width="6" height="22" rx="3" fill="#3b82f6"/>
-          <line x1="63" y1="26" x2="70" y2="26" stroke="#1e293b" stroke-width="3.5" stroke-linecap="round"/>
-          <line x1="63" y1="38" x2="70" y2="38" stroke="#1e293b" stroke-width="3.5" stroke-linecap="round"/>
-          <line x1="63" y1="50" x2="70" y2="50" stroke="#1e293b" stroke-width="3.5" stroke-linecap="round"/>
-        </svg>`,
-
-      'hot': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <path d="M42 20 A8 8 0 0 1 58 20 L58 60 A16 16 0 1 1 42 60 Z" fill="#ffffff" stroke="#1e293b" stroke-width="4"/>
-          <circle cx="50" cy="72" r="10" fill="#ef4444"/>
-          <rect x="47" y="22" width="6" height="48" rx="3" fill="#ef4444"/>
-          <line x1="63" y1="26" x2="70" y2="26" stroke="#1e293b" stroke-width="3.5" stroke-linecap="round"/>
-          <line x1="63" y1="38" x2="70" y2="38" stroke="#1e293b" stroke-width="3.5" stroke-linecap="round"/>
-          <line x1="63" y1="50" x2="70" y2="50" stroke="#1e293b" stroke-width="3.5" stroke-linecap="round"/>
-        </svg>`,
-
-      'tree': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <rect x="43" y="68" width="14" height="18" fill="#78350f" stroke="#1e293b" stroke-width="3.5"/>
-          <polygon points="50,14 22,46 35,46 18,70 82,70 65,46 78,46" fill="#16a34a" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/>
-          <!-- Snow patches -->
-          <path d="M50 14 L38 28 Q45 32 50 27 Q55 32 62 28 Z" fill="#ffffff"/>
-          <path d="M26 46 L35 46 L30 53 Z M65 46 L74 46 L70 53 Z" fill="#ffffff"/>
-        </svg>`,
-
-      'snowflake': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <g stroke="#38bdf8" stroke-width="5.5" stroke-linecap="round">
-            <line x1="50" y1="14" x2="50" y2="86"/>
-            <line x1="19" y1="32" x2="81" y2="68"/>
-            <line x1="81" y1="32" x2="19" y2="68"/>
-            <!-- Tips -->
-            <path d="M42 23 L50 31 L58 23" fill="none"/>
-            <path d="M42 77 L50 69 L58 77" fill="none"/>
-            <path d="M23 42 L33 40 L31 30" fill="none"/>
-            <path d="M69 70 L67 60 L77 58" fill="none"/>
-            <path d="M69 30 L67 40 L77 42" fill="none"/>
-            <path d="M23 58 L33 60 L31 70" fill="none"/>
-          </g>
-        </svg>`,
-
-      'morning': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <rect x="10" y="14" width="80" height="72" rx="14" fill="#bae6fd" stroke="#1e293b" stroke-width="3.5"/>
-          <path d="M30 62 A20 20 0 0 1 70 62 Z" fill="#facc15" stroke="#1e293b" stroke-width="3.5"/>
-          <path d="M50 28 L50 35 M32 36 L37 41 M68 36 L63 41 M22 52 L28 54 M78 52 L72 54" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
-          <path d="M10 62 L90 62 L90 74 C90 81, 84 86, 76 86 L24 86 C16 86, 10 81, 10 74 Z" fill="#4ade80" stroke="#1e293b" stroke-width="3.5"/>
-        </svg>`,
-
-      'midday': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <circle cx="50" cy="50" r="22" fill="#facc15" stroke="#1e293b" stroke-width="4"/>
-          <g stroke="#f59e0b" stroke-width="4.5" stroke-linecap="round">
-            <line x1="50" y1="12" x2="50" y2="21"/>
-            <line x1="50" y1="79" x2="50" y2="88"/>
-            <line x1="12" y1="50" x2="21" y2="50"/>
-            <line x1="79" y1="50" x2="88" y2="50"/>
-            <line x1="23" y1="23" x2="29" y2="29"/>
-            <line x1="71" y1="71" x2="77" y2="77"/>
-            <line x1="77" y1="23" x2="71" y2="29"/>
-            <line x1="29" y1="71" x2="23" y2="77"/>
-          </g>
-          <circle cx="43" cy="47" r="2.2" fill="#1e293b"/>
-          <circle cx="57" cy="47" r="2.2" fill="#1e293b"/>
-          <path d="M44 54 Q50 60 56 54" fill="none" stroke="#1e293b" stroke-width="3" stroke-linecap="round"/>
-        </svg>`,
-
-      'evening': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <rect x="10" y="14" width="80" height="72" rx="14" fill="#fdba74" stroke="#1e293b" stroke-width="3.5"/>
-          <path d="M32 62 A18 18 0 0 1 68 62 Z" fill="#f97316" stroke="#1e293b" stroke-width="3.5"/>
-          <path d="M10 62 L90 62 L90 74 C90 81, 84 86, 76 86 L24 86 C16 86, 10 81, 10 74 Z" fill="#1e3a8a" stroke="#1e293b" stroke-width="3.5"/>
-        </svg>`,
-
-      'night': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <rect x="10" y="14" width="80" height="72" rx="14" fill="#1e293b" stroke="#0f172a" stroke-width="3.5"/>
-          <path d="M56 26 A22 22 0 1 0 74 62 A18 18 0 1 1 56 26 Z" fill="#facc15" stroke="#fef08a" stroke-width="2"/>
-          <circle cx="30" cy="34" r="2.5" fill="#fef08a"/>
-          <circle cx="72" cy="32" r="2" fill="#fef08a"/>
-          <circle cx="28" cy="64" r="2" fill="#fef08a"/>
-        </svg>`,
-
-      'sun': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <circle cx="50" cy="50" r="22" fill="#facc15" stroke="#1e293b" stroke-width="4"/>
-          <g stroke="#facc15" stroke-width="5" stroke-linecap="round">
-            <line x1="50" y1="12" x2="50" y2="21"/>
-            <line x1="50" y1="79" x2="50" y2="88"/>
-            <line x1="12" y1="50" x2="21" y2="50"/>
-            <line x1="79" y1="50" x2="88" y2="50"/>
-            <line x1="23" y1="23" x2="29" y2="29"/>
-            <line x1="71" y1="71" x2="77" y2="77"/>
-            <line x1="77" y1="23" x2="71" y2="29"/>
-            <line x1="29" y1="71" x2="23" y2="77"/>
-          </g>
-          <circle cx="43" cy="47" r="2.2" fill="#1e293b"/>
-          <circle cx="57" cy="47" r="2.2" fill="#1e293b"/>
-          <path d="M44 54 Q50 60 56 54" fill="none" stroke="#1e293b" stroke-width="3" stroke-linecap="round"/>
-        </svg>`,
-
-      'moon': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <path d="M58 18 A30 30 0 1 0 82 68 A24 24 0 1 1 58 18 Z" fill="#facc15" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/>
-        </svg>`,
-
-      'mittens': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <!-- Left Mitten -->
-          <path d="M20 34 C20 20, 40 20, 40 34 L40 46 L46 43 C49 41, 52 45, 49 49 L40 58 L40 70 L20 70 Z" fill="#9333ea" stroke="#1e293b" stroke-width="3.8" stroke-linejoin="round"/>
-          <rect x="18" y="68" width="24" height="8" rx="3" fill="#c084fc" stroke="#1e293b" stroke-width="3.5"/>
-          <!-- Right Mitten -->
-          <path d="M80 34 C80 20, 60 20, 60 34 L60 46 L54 43 C51 41, 48 45, 51 49 L60 58 L60 70 L80 70 Z" fill="#9333ea" stroke="#1e293b" stroke-width="3.8" stroke-linejoin="round"/>
-          <rect x="58" y="68" width="24" height="8" rx="3" fill="#c084fc" stroke="#1e293b" stroke-width="3.5"/>
-        </svg>`,
-
-      'cloud': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <rect x="12" y="16" width="76" height="68" rx="14" fill="#38bdf8" stroke="#1e293b" stroke-width="3.5"/>
-          <path d="M28 62 C20 62, 17 52, 24 47 C25 36, 39 32, 48 39 C55 32, 70 35, 71 47 C79 50, 78 62, 68 62 Z" fill="#ffffff" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/>
-        </svg>`,
-
-      'snow shovel': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <g transform="rotate(38 50 50)">
-            <rect x="44" y="14" width="12" height="8" rx="3" fill="none" stroke="#1e293b" stroke-width="4"/>
-            <line x1="50" y1="22" x2="50" y2="54" stroke="#78350f" stroke-width="5.5" stroke-linecap="round"/>
-            <rect x="33" y="54" width="34" height="30" rx="6" fill="#f97316" stroke="#1e293b" stroke-width="4"/>
-            <line x1="43" y1="54" x2="43" y2="70" stroke="#1e293b" stroke-width="3"/>
-            <line x1="57" y1="54" x2="57" y2="70" stroke="#1e293b" stroke-width="3"/>
-          </g>
-        </svg>`,
-
-      'owl': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <path d="M30 24 L38 30 L62 30 L70 24 L68 38 C74 46, 74 74, 50 78 C26 74, 26 46, 32 38 Z" fill="#92400e" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/>
-          <ellipse cx="50" cy="60" rx="14" ry="15" fill="#fde68a"/>
-          <circle cx="41" cy="42" r="8.5" fill="#ffffff" stroke="#1e293b" stroke-width="3.5"/>
-          <circle cx="59" cy="42" r="8.5" fill="#ffffff" stroke="#1e293b" stroke-width="3.5"/>
-          <circle cx="41" cy="42" r="3.5" fill="#1e293b"/>
-          <circle cx="59" cy="42" r="3.5" fill="#1e293b"/>
-          <polygon points="46,48 54,48 50,55" fill="#f59e0b" stroke="#1e293b" stroke-width="2.5"/>
-        </svg>`,
-
-      'fall tree': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <rect x="44" y="62" width="12" height="24" fill="#78350f" stroke="#1e293b" stroke-width="3.5"/>
-          <circle cx="50" cy="40" r="25" fill="#f97316" stroke="#1e293b" stroke-width="4"/>
-          <circle cx="38" cy="36" r="8" fill="#facc15"/>
-          <circle cx="60" cy="44" r="9" fill="#ef4444"/>
-          <circle cx="50" cy="28" r="7" fill="#ef4444"/>
-        </svg>`,
-
-      'winter tree': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <path d="M50 86 L50 36 M50 56 L30 38 M50 50 L70 32 M50 42 L38 24 M50 38 L62 22" stroke="#78350f" stroke-width="5.5" stroke-linecap="round"/>
-          <path d="M24 86 Q50 78 76 86" fill="none" stroke="#38bdf8" stroke-width="5" stroke-linecap="round"/>
-          <circle cx="28" cy="24" r="3" fill="#38bdf8"/>
-          <circle cx="74" cy="22" r="3" fill="#38bdf8"/>
-          <circle cx="22" cy="52" r="2.5" fill="#38bdf8"/>
-          <circle cx="78" cy="50" r="2.5" fill="#38bdf8"/>
-        </svg>`,
-
-      'spring tree': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <rect x="44" y="62" width="12" height="24" fill="#78350f" stroke="#1e293b" stroke-width="3.5"/>
-          <circle cx="50" cy="40" r="25" fill="#4ade80" stroke="#1e293b" stroke-width="4"/>
-          <circle cx="38" cy="34" r="5" fill="#f472b6"/>
-          <circle cx="58" cy="32" r="5" fill="#f472b6"/>
-          <circle cx="48" cy="48" r="5" fill="#f472b6"/>
-          <circle cx="62" cy="46" r="4.5" fill="#f472b6"/>
-          <circle cx="36" cy="48" r="4.5" fill="#f472b6"/>
-        </svg>`,
-
-      'summer tree': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <rect x="44" y="62" width="12" height="24" fill="#78350f" stroke="#1e293b" stroke-width="3.5"/>
-          <circle cx="50" cy="40" r="26" fill="#16a34a" stroke="#1e293b" stroke-width="4"/>
-          <circle cx="40" cy="34" r="5" fill="#ef4444"/>
-          <circle cx="60" cy="38" r="5" fill="#ef4444"/>
-          <circle cx="48" cy="48" r="5" fill="#ef4444"/>
-        </svg>`,
-
-      'snow pants': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <path d="M36 16 L36 32 M64 16 L64 32" stroke="#1e293b" stroke-width="5" stroke-linecap="round"/>
-          <path d="M32 30 L68 30 L74 84 L55 84 L50 54 L45 84 L26 84 Z" fill="#2563eb" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/>
-        </svg>`,
-
-      'shorts': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <path d="M26 32 L74 32 L78 68 L54 68 L50 54 L46 68 L22 68 Z" fill="#0284c7" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/>
-          <line x1="26" y1="39" x2="74" y2="39" stroke="#1e293b" stroke-width="3"/>
-        </svg>`,
-
-      'sandals': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <ellipse cx="33" cy="52" rx="13" ry="28" fill="#d97706" stroke="#1e293b" stroke-width="4"/>
-          <path d="M21 44 Q33 38 45 44 M21 56 Q33 50 45 56" fill="none" stroke="#78350f" stroke-width="5"/>
-          <ellipse cx="67" cy="52" rx="13" ry="28" fill="#d97706" stroke="#1e293b" stroke-width="4"/>
-          <path d="M55 44 Q67 38 79 44 M55 56 Q67 50 79 56" fill="none" stroke="#78350f" stroke-width="5"/>
-        </svg>`,
-
-      'scarf': `
-        <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
-          <rect x="24" y="24" width="52" height="18" rx="9" fill="#ef4444" stroke="#1e293b" stroke-width="4"/>
-          <path d="M54 38 L70 38 L74 78 L58 78 Z" fill="#dc2626" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/>
-          <line x1="61" y1="78" x2="61" y2="86" stroke="#1e293b" stroke-width="3"/>
-          <line x1="66" y1="78" x2="66" y2="86" stroke="#1e293b" stroke-width="3"/>
-          <line x1="71" y1="78" x2="71" y2="86" stroke="#1e293b" stroke-width="3"/>
-        </svg>`
+      'beach ball': '<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="#ef4444" stroke="#1e293b" stroke-width="4.5"/><path d="M50 12 C32 28, 32 72, 50 88 C68 72, 68 28, 50 12 Z" fill="#3b82f6" stroke="#1e293b" stroke-width="4"/><path d="M14 40 C30 30, 70 30, 86 40" fill="none" stroke="#1e293b" stroke-width="4"/><circle cx="50" cy="34" r="9" fill="#facc15" stroke="#1e293b" stroke-width="4"/></svg>',
+      'snowman': '<svg viewBox="0 0 100 100"><circle cx="50" cy="68" r="22" fill="#ffffff" stroke="#1e293b" stroke-width="4"/><circle cx="50" cy="39" r="15" fill="#ffffff" stroke="#1e293b" stroke-width="4"/><path d="M35 45 L16 34 M22 37 L18 29 M22 37 L14 41" stroke="#78350f" stroke-width="3.5" stroke-linecap="round"/><path d="M65 45 L84 34 M78 37 L82 29 M78 37 L86 41" stroke="#78350f" stroke-width="3.5" stroke-linecap="round"/><rect x="33" y="22" width="34" height="5" rx="2.5" fill="#1e293b"/><rect x="39" y="9" width="22" height="14" rx="2" fill="#1e293b"/><rect x="39" y="18" width="22" height="3.5" fill="#ef4444"/><circle cx="45" cy="36" r="2.2" fill="#1e293b"/><circle cx="55" cy="36" r="2.2" fill="#1e293b"/><polygon points="50,39 66,42 50,45" fill="#f97316" stroke="#1e293b" stroke-width="2"/><circle cx="50" cy="60" r="2.5" fill="#1e293b"/><circle cx="50" cy="69" r="2.5" fill="#1e293b"/><circle cx="50" cy="78" r="2.5" fill="#1e293b"/></svg>',
+      'sunglasses': '<svg viewBox="0 0 100 100"><path d="M12 40 L88 40" stroke="#1e293b" stroke-width="5" stroke-linecap="round"/><path d="M15 40 L44 40 L41 62 C40 67, 20 67, 18 62 Z" fill="#1e293b" stroke="#0f172a" stroke-width="4"/><path d="M56 40 L85 40 L82 62 C80 67, 60 67, 59 62 Z" fill="#1e293b" stroke="#0f172a" stroke-width="4"/><path d="M22 46 L30 46 L25 57" stroke="#94a3b8" stroke-width="3" stroke-linecap="round" fill="none"/><path d="M63 46 L71 46 L66 57" stroke="#94a3b8" stroke-width="3" stroke-linecap="round" fill="none"/></svg>',
+      'snow boots': '<svg viewBox="0 0 100 100"><path d="M20 26 L42 26 L42 74 L14 74 C14 64, 20 62, 20 56 Z" fill="#92400e" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/><rect x="18" y="21" width="26" height="9" rx="4" fill="#fde68a" stroke="#1e293b" stroke-width="3.5"/><rect x="13" y="72" width="30" height="6" rx="2" fill="#1e293b"/><path d="M58 26 L80 26 L80 56 C80 62, 86 64, 86 74 L58 74 Z" fill="#92400e" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/><rect x="56" y="21" width="26" height="9" rx="4" fill="#fde68a" stroke="#1e293b" stroke-width="3.5"/><rect x="57" y="72" width="30" height="6" rx="2" fill="#1e293b"/></svg>',
+      'winter coat': '<svg viewBox="0 0 100 100"><path d="M35 20 L65 20 L84 44 L75 53 L67 42 L67 82 L33 82 L33 42 L25 53 L16 44 Z" fill="#2563eb" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/><path d="M38 18 C38 12, 62 12, 62 18 L60 25 L40 25 Z" fill="#93c5fd" stroke="#1e293b" stroke-width="3.5"/><line x1="50" y1="25" x2="50" y2="82" stroke="#1e293b" stroke-width="3.5"/><circle cx="45" cy="38" r="2.2" fill="#1e293b"/><circle cx="45" cy="52" r="2.2" fill="#1e293b"/><circle cx="45" cy="66" r="2.2" fill="#1e293b"/></svg>',
+      'sled': '<svg viewBox="0 0 100 100"><path d="M16 70 L76 70 C85 70, 88 58, 80 54" fill="none" stroke="#78350f" stroke-width="5" stroke-linecap="round"/><line x1="30" y1="54" x2="30" y2="70" stroke="#78350f" stroke-width="4.5"/><line x1="62" y1="54" x2="62" y2="70" stroke="#78350f" stroke-width="4.5"/><rect x="16" y="46" width="60" height="9" rx="4" fill="#d97706" stroke="#1e293b" stroke-width="3.5"/><path d="M74 49 Q84 45 81 55" fill="none" stroke="#f59e0b" stroke-width="3"/></svg>',
+      'bucket': '<svg viewBox="0 0 100 100"><rect x="54" y="18" width="6" height="26" rx="2" fill="#facc15" stroke="#1e293b" stroke-width="3" transform="rotate(15 57 30)"/><rect x="52" y="13" width="12" height="7" rx="3" fill="none" stroke="#1e293b" stroke-width="3" transform="rotate(15 57 16)"/><polygon points="26,38 74,38 67,84 33,84" fill="#ef4444" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/><rect x="23" y="34" width="54" height="8" rx="4" fill="#dc2626" stroke="#1e293b" stroke-width="3.5"/><path d="M28 42 C28 62, 72 62, 72 42" fill="none" stroke="#1e293b" stroke-width="3.5"/></svg>',
+      'ice cream': '<svg viewBox="0 0 100 100"><polygon points="33,48 67,48 50,88" fill="#d97706" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/><line x1="41" y1="55" x2="57" y2="71" stroke="#92400e" stroke-width="2.5"/><line x1="59" y1="55" x2="43" y2="71" stroke="#92400e" stroke-width="2.5"/><path d="M31 48 C26 40, 34 32, 40 32 C37 23, 48 14, 55 16 C52 22, 65 24, 63 33 C70 35, 72 43, 67 48 Z" fill="#f472b6" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/></svg>',
+      'rain cloud': '<svg viewBox="0 0 100 100"><path d="M26 56 C16 56, 12 44, 21 38 C22 25, 38 20, 48 28 C56 20, 74 24, 75 38 C85 41, 84 56, 72 56 Z" fill="#94a3b8" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/><path d="M32 65 L28 76 M46 67 L42 78 M60 65 L56 76 M38 80 L35 88 M53 80 L50 88" stroke="#0284c7" stroke-width="4.5" stroke-linecap="round"/></svg>',
+      'sun hat': '<svg viewBox="0 0 100 100"><ellipse cx="50" cy="62" rx="40" ry="13" fill="#facc15" stroke="#1e293b" stroke-width="4"/><path d="M29 60 C29 34, 71 34, 71 60" fill="#fde047" stroke="#1e293b" stroke-width="4"/><path d="M30 53 Q50 58 70 53" fill="none" stroke="#ef4444" stroke-width="5"/></svg>',
+      'rainbow': '<svg viewBox="0 0 100 100"><path d="M14 72 A36 36 0 0 1 86 72" fill="none" stroke="#ef4444" stroke-width="7" stroke-linecap="round"/><path d="M21 72 A29 29 0 0 1 79 72" fill="none" stroke="#f97316" stroke-width="7" stroke-linecap="round"/><path d="M28 72 A22 22 0 0 1 72 72" fill="none" stroke="#facc15" stroke-width="7" stroke-linecap="round"/><path d="M35 72 A15 15 0 0 1 65 72" fill="none" stroke="#22c55e" stroke-width="7" stroke-linecap="round"/><path d="M42 72 A8 8 0 0 1 58 72" fill="none" stroke="#3b82f6" stroke-width="7" stroke-linecap="round"/></svg>',
+      'rain boots': '<svg viewBox="0 0 100 100"><path d="M22 24 L42 24 L42 74 L14 74 C14 64, 22 62, 22 55 Z" fill="#22c55e" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/><rect x="13" y="72" width="30" height="6" rx="2" fill="#15803d" stroke="#1e293b" stroke-width="3"/><path d="M58 24 L78 24 L78 55 C78 62, 86 64, 86 74 L58 74 Z" fill="#22c55e" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/><rect x="57" y="72" width="30" height="6" rx="2" fill="#15803d" stroke="#1e293b" stroke-width="3"/></svg>',
+      't-shirt': '<svg viewBox="0 0 100 100"><path d="M34 22 L66 22 L86 38 L76 50 L66 42 L66 80 L34 80 L34 42 L24 50 L14 38 Z" fill="#facc15" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/><path d="M40 22 Q50 32 60 22" fill="none" stroke="#1e293b" stroke-width="3.5"/></svg>',
+      'umbrella': '<svg viewBox="0 0 100 100"><path d="M50 15 L50 76 C50 84, 38 84, 38 76" fill="none" stroke="#78350f" stroke-width="4.5" stroke-linecap="round"/><path d="M14 52 C14 26, 86 26, 86 52 C74 46, 62 46, 50 52 C38 46, 26 46, 14 52 Z" fill="#ef4444" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/></svg>',
+      'flower': '<svg viewBox="0 0 100 100"><line x1="50" y1="48" x2="50" y2="86" stroke="#16a34a" stroke-width="5" stroke-linecap="round"/><path d="M50 72 C34 72, 28 58, 36 54 C44 54, 48 64, 50 72 Z" fill="#22c55e" stroke="#1e293b" stroke-width="3.5"/><path d="M50 72 C66 72, 72 58, 64 54 C56 54, 52 64, 50 72 Z" fill="#22c55e" stroke="#1e293b" stroke-width="3.5"/><path d="M33 34 C33 20, 40 18, 43 26 L50 16 L57 26 C60 18, 67 20, 67 34 C67 46, 58 50, 50 50 C42 50, 33 46, 33 34 Z" fill="#f472b6" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/></svg>',
+      'acorn': '<svg viewBox="0 0 100 100"><path d="M30 42 L70 42 C70 66, 58 80, 50 85 C42 80, 30 66, 30 42 Z" fill="#b45309" stroke="#1e293b" stroke-width="4"/><path d="M25 42 C25 26, 75 26, 75 42 Z" fill="#78350f" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/><path d="M50 28 L53 17" stroke="#78350f" stroke-width="5" stroke-linecap="round"/></svg>',
+      'squirrel': '<svg viewBox="0 0 100 100"><path d="M58 76 C84 78, 92 46, 78 30 C68 20, 56 30, 62 44 C66 52, 56 56, 54 64" fill="#d97706" stroke="#1e293b" stroke-width="4" stroke-linecap="round"/><ellipse cx="44" cy="64" rx="16" ry="18" fill="#b45309" stroke="#1e293b" stroke-width="4"/><circle cx="40" cy="40" r="13" fill="#b45309" stroke="#1e293b" stroke-width="4"/><ellipse cx="35" cy="27" rx="4" ry="7" fill="#b45309" stroke="#1e293b" stroke-width="3.5"/><ellipse cx="45" cy="27" rx="4" ry="7" fill="#b45309" stroke="#1e293b" stroke-width="3.5"/><circle cx="35" cy="38" r="2.3" fill="#1e293b"/><circle cx="28" cy="42" r="2.2" fill="#1e293b"/><path d="M26 58 L38 58" stroke="#1e293b" stroke-width="4" stroke-linecap="round"/><ellipse cx="44" cy="81" rx="12" ry="4.5" fill="#78350f" stroke="#1e293b" stroke-width="3.5"/></svg>',
+      'pumpkin': '<svg viewBox="0 0 100 100"><path d="M47 28 C47 18, 55 15, 58 20" fill="none" stroke="#15803d" stroke-width="5" stroke-linecap="round"/><ellipse cx="32" cy="56" rx="16" ry="25" fill="#ea580c" stroke="#1e293b" stroke-width="4"/><ellipse cx="68" cy="56" rx="16" ry="25" fill="#ea580c" stroke="#1e293b" stroke-width="4"/><ellipse cx="50" cy="56" rx="16" ry="27" fill="#f97316" stroke="#1e293b" stroke-width="4"/></svg>',
+      'leaves': '<svg viewBox="0 0 100 100"><line x1="50" y1="68" x2="50" y2="88" stroke="#78350f" stroke-width="4.5" stroke-linecap="round"/><path d="M50 14 L58 34 L76 28 L68 46 L86 52 L64 66 L68 74 L50 68 L32 74 L36 66 L14 52 L32 46 L24 28 L42 34 Z" fill="#ef4444" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/></svg>',
+      'butterfly': '<svg viewBox="0 0 100 100"><path d="M46 34 L38 20 M54 34 L62 20" stroke="#1e293b" stroke-width="3.5" stroke-linecap="round"/><path d="M48 44 C26 20, 12 36, 22 52 C14 64, 28 78, 48 64 Z" fill="#fb923c" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/><path d="M52 44 C74 20, 88 36, 78 52 C86 64, 72 78, 52 64 Z" fill="#fb923c" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/><circle cx="30" cy="42" r="4" fill="#fef08a"/><circle cx="70" cy="42" r="4" fill="#fef08a"/><rect x="46" y="32" width="8" height="40" rx="4" fill="#78350f" stroke="#1e293b" stroke-width="3.5"/></svg>',
+      'bird': '<svg viewBox="0 0 100 100"><polygon points="74,42 88,46 74,51" fill="#facc15" stroke="#1e293b" stroke-width="3.5" stroke-linejoin="round"/><path d="M26 56 L12 48 L16 62 L12 68 L28 64 Z" fill="#2563eb" stroke="#1e293b" stroke-width="3.5" stroke-linejoin="round"/><path d="M26 56 C26 36, 52 28, 66 36 C76 42, 76 62, 62 70 C46 78, 26 70, 26 56 Z" fill="#3b82f6" stroke="#1e293b" stroke-width="4"/><path d="M38 54 C46 46, 58 50, 56 60 C48 64, 38 60, 38 54 Z" fill="#93c5fd" stroke="#1e293b" stroke-width="3"/><circle cx="62" cy="43" r="3" fill="#1e293b"/></svg>',
+      'cold': '<svg viewBox="0 0 100 100"><path d="M42 20 A8 8 0 0 1 58 20 L58 60 A16 16 0 1 1 42 60 Z" fill="#ffffff" stroke="#1e293b" stroke-width="4"/><circle cx="50" cy="72" r="10" fill="#3b82f6"/><rect x="47" y="48" width="6" height="22" rx="3" fill="#3b82f6"/><line x1="63" y1="26" x2="70" y2="26" stroke="#1e293b" stroke-width="3.5" stroke-linecap="round"/><line x1="63" y1="38" x2="70" y2="38" stroke="#1e293b" stroke-width="3.5" stroke-linecap="round"/><line x1="63" y1="50" x2="70" y2="50" stroke="#1e293b" stroke-width="3.5" stroke-linecap="round"/></svg>',
+      'hot': '<svg viewBox="0 0 100 100"><path d="M42 20 A8 8 0 0 1 58 20 L58 60 A16 16 0 1 1 42 60 Z" fill="#ffffff" stroke="#1e293b" stroke-width="4"/><circle cx="50" cy="72" r="10" fill="#ef4444"/><rect x="47" y="22" width="6" height="48" rx="3" fill="#ef4444"/><line x1="63" y1="26" x2="70" y2="26" stroke="#1e293b" stroke-width="3.5" stroke-linecap="round"/><line x1="63" y1="38" x2="70" y2="38" stroke="#1e293b" stroke-width="3.5" stroke-linecap="round"/><line x1="63" y1="50" x2="70" y2="50" stroke="#1e293b" stroke-width="3.5" stroke-linecap="round"/></svg>',
+      'tree': '<svg viewBox="0 0 100 100"><rect x="43" y="68" width="14" height="18" fill="#78350f" stroke="#1e293b" stroke-width="3.5"/><polygon points="50,14 22,46 35,46 18,70 82,70 65,46 78,46" fill="#16a34a" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/><path d="M50 14 L38 28 Q45 32 50 27 Q55 32 62 28 Z" fill="#ffffff"/><path d="M26 46 L35 46 L30 53 Z M65 46 L74 46 L70 53 Z" fill="#ffffff"/></svg>',
+      'snowflake': '<svg viewBox="0 0 100 100"><g stroke="#38bdf8" stroke-width="5.5" stroke-linecap="round"><line x1="50" y1="14" x2="50" y2="86"/><line x1="19" y1="32" x2="81" y2="68"/><line x1="81" y1="32" x2="19" y2="68"/><path d="M42 23 L50 31 L58 23" fill="none"/><path d="M42 77 L50 69 L58 77" fill="none"/><path d="M23 42 L33 40 L31 30" fill="none"/><path d="M69 70 L67 60 L77 58" fill="none"/><path d="M69 30 L67 40 L77 42" fill="none"/><path d="M23 58 L33 60 L31 70" fill="none"/></g></svg>',
+      'morning': '<svg viewBox="0 0 100 100"><rect x="10" y="14" width="80" height="72" rx="14" fill="#bae6fd" stroke="#1e293b" stroke-width="3.5"/><path d="M30 62 A20 20 0 0 1 70 62 Z" fill="#facc15" stroke="#1e293b" stroke-width="3.5"/><path d="M50 28 L50 35 M32 36 L37 41 M68 36 L63 41 M22 52 L28 54 M78 52 L72 54" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/><path d="M10 62 L90 62 L90 74 C90 81, 84 86, 76 86 L24 86 C16 86, 10 81, 10 74 Z" fill="#4ade80" stroke="#1e293b" stroke-width="3.5"/></svg>',
+      'midday': '<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="22" fill="#facc15" stroke="#1e293b" stroke-width="4"/><g stroke="#f59e0b" stroke-width="4.5" stroke-linecap="round"><line x1="50" y1="12" x2="50" y2="21"/><line x1="50" y1="79" x2="50" y2="88"/><line x1="12" y1="50" x2="21" y2="50"/><line x1="79" y1="50" x2="88" y2="50"/><line x1="23" y1="23" x2="29" y2="29"/><line x1="71" y1="71" x2="77" y2="77"/><line x1="77" y1="23" x2="71" y2="29"/><line x1="29" y1="71" x2="23" y2="77"/></g><circle cx="43" cy="47" r="2.2" fill="#1e293b"/><circle cx="57" cy="47" r="2.2" fill="#1e293b"/><path d="M44 54 Q50 60 56 54" fill="none" stroke="#1e293b" stroke-width="3" stroke-linecap="round"/></svg>',
+      'evening': '<svg viewBox="0 0 100 100"><rect x="10" y="14" width="80" height="72" rx="14" fill="#fdba74" stroke="#1e293b" stroke-width="3.5"/><path d="M32 62 A18 18 0 0 1 68 62 Z" fill="#f97316" stroke="#1e293b" stroke-width="3.5"/><path d="M10 62 L90 62 L90 74 C90 81, 84 86, 76 86 L24 86 C16 86, 10 81, 10 74 Z" fill="#1e3a8a" stroke="#1e293b" stroke-width="3.5"/></svg>',
+      'night': '<svg viewBox="0 0 100 100"><rect x="10" y="14" width="80" height="72" rx="14" fill="#1e293b" stroke="#0f172a" stroke-width="3.5"/><path d="M56 26 A22 22 0 1 0 74 62 A18 18 0 1 1 56 26 Z" fill="#facc15" stroke="#fef08a" stroke-width="2"/><circle cx="30" cy="34" r="2.5" fill="#fef08a"/><circle cx="72" cy="32" r="2" fill="#fef08a"/><circle cx="28" cy="64" r="2" fill="#fef08a"/></svg>',
+      'sun': '<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="22" fill="#facc15" stroke="#1e293b" stroke-width="4"/><g stroke="#facc15" stroke-width="5" stroke-linecap="round"><line x1="50" y1="12" x2="50" y2="21"/><line x1="50" y1="79" x2="50" y2="88"/><line x1="12" y1="50" x2="21" y2="50"/><line x1="79" y1="50" x2="88" y2="50"/><line x1="23" y1="23" x2="29" y2="29"/><line x1="71" y1="71" x2="77" y2="77"/><line x1="77" y1="23" x2="71" y2="29"/><line x1="29" y1="71" x2="23" y2="77"/></g><circle cx="43" cy="47" r="2.2" fill="#1e293b"/><circle cx="57" cy="47" r="2.2" fill="#1e293b"/><path d="M44 54 Q50 60 56 54" fill="none" stroke="#1e293b" stroke-width="3" stroke-linecap="round"/></svg>',
+      'moon': '<svg viewBox="0 0 100 100"><path d="M58 18 A30 30 0 1 0 82 68 A24 24 0 1 1 58 18 Z" fill="#facc15" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/></svg>',
+      'mittens': '<svg viewBox="0 0 100 100"><path d="M20 34 C20 20, 40 20, 40 34 L40 46 L46 43 C49 41, 52 45, 49 49 L40 58 L40 70 L20 70 Z" fill="#9333ea" stroke="#1e293b" stroke-width="3.8" stroke-linejoin="round"/><rect x="18" y="68" width="24" height="8" rx="3" fill="#c084fc" stroke="#1e293b" stroke-width="3.5"/><path d="M80 34 C80 20, 60 20, 60 34 L60 46 L54 43 C51 41, 48 45, 51 49 L60 58 L60 70 L80 70 Z" fill="#9333ea" stroke="#1e293b" stroke-width="3.8" stroke-linejoin="round"/><rect x="58" y="68" width="24" height="8" rx="3" fill="#c084fc" stroke="#1e293b" stroke-width="3.5"/></svg>',
+      'cloud': '<svg viewBox="0 0 100 100"><rect x="12" y="16" width="76" height="68" rx="14" fill="#38bdf8" stroke="#1e293b" stroke-width="3.5"/><path d="M28 62 C20 62, 17 52, 24 47 C25 36, 39 32, 48 39 C55 32, 70 35, 71 47 C79 50, 78 62, 68 62 Z" fill="#ffffff" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/></svg>',
+      'snow shovel': '<svg viewBox="0 0 100 100"><g transform="rotate(38 50 50)"><rect x="44" y="14" width="12" height="8" rx="3" fill="none" stroke="#1e293b" stroke-width="4"/><line x1="50" y1="22" x2="50" y2="54" stroke="#78350f" stroke-width="5.5" stroke-linecap="round"/><rect x="33" y="54" width="34" height="30" rx="6" fill="#f97316" stroke="#1e293b" stroke-width="4"/><line x1="43" y1="54" x2="43" y2="70" stroke="#1e293b" stroke-width="3"/><line x1="57" y1="54" x2="57" y2="70" stroke="#1e293b" stroke-width="3"/></g></svg>',
+      'owl': '<svg viewBox="0 0 100 100"><path d="M30 24 L38 30 L62 30 L70 24 L68 38 C74 46, 74 74, 50 78 C26 74, 26 46, 32 38 Z" fill="#92400e" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/><ellipse cx="50" cy="60" rx="14" ry="15" fill="#fde68a"/><circle cx="41" cy="42" r="8.5" fill="#ffffff" stroke="#1e293b" stroke-width="3.5"/><circle cx="59" cy="42" r="8.5" fill="#ffffff" stroke="#1e293b" stroke-width="3.5"/><circle cx="41" cy="42" r="3.5" fill="#1e293b"/><circle cx="59" cy="42" r="3.5" fill="#1e293b"/><polygon points="46,48 54,48 50,55" fill="#f59e0b" stroke="#1e293b" stroke-width="2.5"/></svg>',
+      'fall tree': '<svg viewBox="0 0 100 100"><rect x="44" y="62" width="12" height="24" fill="#78350f" stroke="#1e293b" stroke-width="3.5"/><circle cx="50" cy="40" r="25" fill="#f97316" stroke="#1e293b" stroke-width="4"/><circle cx="38" cy="36" r="8" fill="#facc15"/><circle cx="60" cy="44" r="9" fill="#ef4444"/><circle cx="50" cy="28" r="7" fill="#ef4444"/></svg>',
+      'winter tree': '<svg viewBox="0 0 100 100"><path d="M50 86 L50 36 M50 56 L30 38 M50 50 L70 32 M50 42 L38 24 M50 38 L62 22" stroke="#78350f" stroke-width="5.5" stroke-linecap="round"/><path d="M24 86 Q50 78 76 86" fill="none" stroke="#38bdf8" stroke-width="5" stroke-linecap="round"/><circle cx="28" cy="24" r="3" fill="#38bdf8"/><circle cx="74" cy="22" r="3" fill="#38bdf8"/><circle cx="22" cy="52" r="2.5" fill="#38bdf8"/><circle cx="78" cy="50" r="2.5" fill="#38bdf8"/></svg>',
+      'spring tree': '<svg viewBox="0 0 100 100"><rect x="44" y="62" width="12" height="24" fill="#78350f" stroke="#1e293b" stroke-width="3.5"/><circle cx="50" cy="40" r="25" fill="#4ade80" stroke="#1e293b" stroke-width="4"/><circle cx="38" cy="34" r="5" fill="#f472b6"/><circle cx="58" cy="32" r="5" fill="#f472b6"/><circle cx="48" cy="48" r="5" fill="#f472b6"/><circle cx="62" cy="46" r="4.5" fill="#f472b6"/><circle cx="36" cy="48" r="4.5" fill="#f472b6"/></svg>',
+      'summer tree': '<svg viewBox="0 0 100 100"><rect x="44" y="62" width="12" height="24" fill="#78350f" stroke="#1e293b" stroke-width="3.5"/><circle cx="50" cy="40" r="26" fill="#16a34a" stroke="#1e293b" stroke-width="4"/><circle cx="40" cy="34" r="5" fill="#ef4444"/><circle cx="60" cy="38" r="5" fill="#ef4444"/><circle cx="48" cy="48" r="5" fill="#ef4444"/></svg>',
+      'snow pants': '<svg viewBox="0 0 100 100"><path d="M36 16 L36 32 M64 16 L64 32" stroke="#1e293b" stroke-width="5" stroke-linecap="round"/><path d="M32 30 L68 30 L74 84 L55 84 L50 54 L45 84 L26 84 Z" fill="#2563eb" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/></svg>',
+      'shorts': '<svg viewBox="0 0 100 100"><path d="M26 32 L74 32 L78 68 L54 68 L50 54 L46 68 L22 68 Z" fill="#0284c7" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/><line x1="26" y1="39" x2="74" y2="39" stroke="#1e293b" stroke-width="3"/></svg>',
+      'sandals': '<svg viewBox="0 0 100 100"><ellipse cx="33" cy="52" rx="13" ry="28" fill="#d97706" stroke="#1e293b" stroke-width="4"/><path d="M21 44 Q33 38 45 44 M21 56 Q33 50 45 56" fill="none" stroke="#78350f" stroke-width="5"/><ellipse cx="67" cy="52" rx="13" ry="28" fill="#d97706" stroke="#1e293b" stroke-width="4"/><path d="M55 44 Q67 38 79 44 M55 56 Q67 50 79 56" fill="none" stroke="#78350f" stroke-width="5"/></svg>',
+      'scarf': '<svg viewBox="0 0 100 100"><rect x="24" y="24" width="52" height="18" rx="9" fill="#ef4444" stroke="#1e293b" stroke-width="4"/><path d="M54 38 L70 38 L74 78 L58 78 Z" fill="#dc2626" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/><line x1="61" y1="78" x2="61" y2="86" stroke="#1e293b" stroke-width="3"/><line x1="66" y1="78" x2="66" y2="86" stroke="#1e293b" stroke-width="3"/><line x1="71" y1="78" x2="71" y2="86" stroke="#1e293b" stroke-width="3"/></svg>',
+      'skating rink': '<svg viewBox="0 0 100 100"><polygon points="12,34 50,14 88,34" fill="#ef4444" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/><rect x="18" y="34" width="64" height="50" fill="#f8fafc" stroke="#1e293b" stroke-width="4"/><ellipse cx="50" cy="68" rx="24" ry="10" fill="#bae6fd" stroke="#0284c7" stroke-width="3"/><text x="50" y="50" text-anchor="middle" font-size="11" font-weight="900" fill="#1e293b">RINK</text></svg>',
+      'indoor pool': '<svg viewBox="0 0 100 100"><polygon points="12,34 50,14 88,34" fill="#0284c7" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/><rect x="18" y="34" width="64" height="50" fill="#ffffff" stroke="#1e293b" stroke-width="4"/><rect x="24" y="54" width="52" height="22" rx="4" fill="#38bdf8" stroke="#1e293b" stroke-width="3"/><path d="M64 54 L64 42 L72 42 L72 54" fill="none" stroke="#facc15" stroke-width="3.5"/></svg>',
+      'greenhouse': '<svg viewBox="0 0 100 100"><path d="M20 84 L20 44 L50 20 L80 44 L80 84 Z" fill="#e0f2fe" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/><line x1="50" y1="20" x2="50" y2="84" stroke="#64748b" stroke-width="2.5"/><line x1="20" y1="52" x2="80" y2="52" stroke="#64748b" stroke-width="2.5"/><circle cx="36" cy="70" r="9" fill="#22c55e" stroke="#1e293b" stroke-width="3"/><circle cx="64" cy="70" r="9" fill="#22c55e" stroke="#1e293b" stroke-width="3"/></svg>',
+      'gym': '<svg viewBox="0 0 100 100"><polygon points="12,34 50,14 88,34" fill="#f97316" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/><rect x="18" y="34" width="64" height="50" fill="#fef3c7" stroke="#1e293b" stroke-width="4"/><circle cx="50" cy="62" r="13" fill="#f97316" stroke="#1e293b" stroke-width="3.5"/><path d="M37 62 L63 62 M50 49 L50 75" stroke="#1e293b" stroke-width="2.5"/></svg>',
+      'snowplow': '<svg viewBox="0 0 100 100"><rect x="34" y="34" width="44" height="28" rx="5" fill="#facc15" stroke="#1e293b" stroke-width="4"/><rect x="38" y="40" width="16" height="12" rx="2" fill="#bae6fd" stroke="#1e293b" stroke-width="2.5"/><path d="M24 38 C14 48, 14 64, 24 72 L34 72 L34 38 Z" fill="#f97316" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/><circle cx="44" cy="68" r="9" fill="#1e293b"/><circle cx="68" cy="68" r="9" fill="#1e293b"/></svg>',
+      'road salt': '<svg viewBox="0 0 100 100"><rect x="28" y="26" width="44" height="56" rx="8" fill="#3b82f6" stroke="#1e293b" stroke-width="4"/><rect x="35" y="42" width="30" height="22" rx="4" fill="#ffffff"/><text x="50" y="57" text-anchor="middle" font-size="12" font-weight="900" fill="#1e293b">SALT</text><circle cx="20" cy="76" r="3" fill="#e2e8f0" stroke="#1e293b" stroke-width="1.5"/><circle cx="80" cy="78" r="3" fill="#e2e8f0" stroke="#1e293b" stroke-width="1.5"/></svg>',
+      'bird feeder': '<svg viewBox="0 0 100 100"><line x1="50" y1="12" x2="50" y2="24" stroke="#1e293b" stroke-width="4"/><polygon points="24,38 50,22 76,38" fill="#ef4444" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/><rect x="32" y="38" width="36" height="36" fill="#fef3c7" stroke="#1e293b" stroke-width="4"/><rect x="24" y="74" width="52" height="7" rx="3" fill="#78350f" stroke="#1e293b" stroke-width="3"/><circle cx="50" cy="58" r="7" fill="#d97706"/></svg>',
+      'watering can': '<svg viewBox="0 0 100 100"><rect x="34" y="42" width="34" height="34" rx="6" fill="#22c55e" stroke="#1e293b" stroke-width="4"/><path d="M68 48 C82 48, 82 70, 68 70" fill="none" stroke="#1e293b" stroke-width="4.5"/><path d="M34 56 L16 40 L20 35 L34 48" fill="#22c55e" stroke="#1e293b" stroke-width="3.5"/><circle cx="14" cy="52" r="2.5" fill="#38bdf8"/><circle cx="12" cy="62" r="2.5" fill="#38bdf8"/></svg>',
+      'sunshade': '<svg viewBox="0 0 100 100"><line x1="50" y1="22" x2="50" y2="84" stroke="#78350f" stroke-width="5" stroke-linecap="round"/><path d="M14 48 C14 22, 86 22, 86 48 Z" fill="#facc15" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/><path d="M34 48 C34 24, 66 24, 66 48 Z" fill="#ef4444" stroke="#1e293b" stroke-width="3.5"/><rect x="34" y="80" width="32" height="6" rx="3" fill="#64748b"/></svg>',
+      'fan': '<svg viewBox="0 0 100 100"><circle cx="50" cy="44" r="26" fill="#e0f2fe" stroke="#1e293b" stroke-width="4"/><circle cx="50" cy="44" r="6" fill="#0284c7" stroke="#1e293b" stroke-width="3"/><ellipse cx="50" cy="29" rx="5" ry="9" fill="#38bdf8" stroke="#1e293b" stroke-width="2.5"/><ellipse cx="50" cy="59" rx="5" ry="9" fill="#38bdf8" stroke="#1e293b" stroke-width="2.5"/><ellipse cx="35" cy="44" rx="9" ry="5" fill="#38bdf8" stroke="#1e293b" stroke-width="2.5"/><ellipse cx="65" cy="44" rx="9" ry="5" fill="#38bdf8" stroke="#1e293b" stroke-width="2.5"/><rect x="46" y="70" width="8" height="12" fill="#64748b"/><rect x="32" y="80" width="36" height="6" rx="3" fill="#1e293b"/></svg>',
+      'stars': '<svg viewBox="0 0 100 100"><rect x="12" y="16" width="76" height="68" rx="14" fill="#0f172a" stroke="#1e293b" stroke-width="4"/><polygon points="36,26 39,35 48,35 41,41 44,50 36,44 28,50 31,41 24,35 33,35" fill="#facc15"/><polygon points="66,44 68,50 75,50 70,54 72,61 66,57 60,61 62,54 57,50 64,50" fill="#fef08a"/><circle cx="32" cy="66" r="3" fill="#fef08a"/><circle cx="64" cy="28" r="2.5" fill="#fef08a"/></svg>',
+      'sleeping bed': '<svg viewBox="0 0 100 100"><rect x="16" y="42" width="10" height="40" rx="3" fill="#78350f" stroke="#1e293b" stroke-width="3.5"/><rect x="74" y="54" width="10" height="28" rx="3" fill="#78350f" stroke="#1e293b" stroke-width="3.5"/><rect x="24" y="58" width="52" height="16" rx="4" fill="#6366f1" stroke="#1e293b" stroke-width="3.5"/><rect x="26" y="50" width="16" height="9" rx="4" fill="#ffffff" stroke="#1e293b" stroke-width="3"/><text x="62" y="40" font-size="14" font-weight="900" fill="#4f46e5">Zzz</text></svg>',
+      'kite': '<svg viewBox="0 0 100 100"><polygon points="52,14 76,38 52,62 28,38" fill="#ef4444" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/><line x1="52" y1="14" x2="52" y2="62" stroke="#1e293b" stroke-width="3"/><line x1="28" y1="38" x2="76" y2="38" stroke="#1e293b" stroke-width="3"/><path d="M52 62 Q40 74 48 86" fill="none" stroke="#facc15" stroke-width="4" stroke-linecap="round"/></svg>',
+      'pinwheel': '<svg viewBox="0 0 100 100"><line x1="50" y1="44" x2="50" y2="88" stroke="#78350f" stroke-width="5" stroke-linecap="round"/><polygon points="50,44 50,16 70,30" fill="#ef4444" stroke="#1e293b" stroke-width="3"/><polygon points="50,44 78,44 64,64" fill="#facc15" stroke="#1e293b" stroke-width="3"/><polygon points="50,44 50,72 30,58" fill="#22c55e" stroke="#1e293b" stroke-width="3"/><polygon points="50,44 22,44 36,24" fill="#3b82f6" stroke="#1e293b" stroke-width="3"/><circle cx="50" cy="44" r="5" fill="#1e293b"/></svg>',
+      'sailboat': '<svg viewBox="0 0 100 100"><polygon points="50,16 50,58 80,58" fill="#ffffff" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/><polygon points="46,24 46,58 24,58" fill="#facc15" stroke="#1e293b" stroke-width="3.5" stroke-linejoin="round"/><polygon points="18,64 82,64 72,80 28,80" fill="#ef4444" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/></svg>',
+      'blowing leaves': '<svg viewBox="0 0 100 100"><path d="M14 36 Q42 28 66 36" fill="none" stroke="#38bdf8" stroke-width="4" stroke-linecap="round"/><path d="M18 58 Q48 50 74 58" fill="none" stroke="#38bdf8" stroke-width="4" stroke-linecap="round"/><ellipse cx="74" cy="34" rx="10" ry="6" fill="#f97316" stroke="#1e293b" stroke-width="3" transform="rotate(-20 74 34)"/><ellipse cx="78" cy="64" rx="10" ry="6" fill="#ef4444" stroke="#1e293b" stroke-width="3" transform="rotate(15 78 64)"/></svg>',
+      'still pond': '<svg viewBox="0 0 100 100"><ellipse cx="50" cy="56" rx="38" ry="20" fill="#38bdf8" stroke="#1e293b" stroke-width="4"/><line x1="28" y1="54" x2="72" y2="54" stroke="#bae6fd" stroke-width="3.5" stroke-linecap="round"/><line x1="36" y1="63" x2="64" y2="63" stroke="#bae6fd" stroke-width="3.5" stroke-linecap="round"/></svg>',
+      'soap bubbles': '<svg viewBox="0 0 100 100"><circle cx="38" cy="54" r="20" fill="#e0f2fe" stroke="#0284c7" stroke-width="3.5"/><circle cx="68" cy="36" r="14" fill="#fce7f3" stroke="#db2777" stroke-width="3.5"/><circle cx="66" cy="68" r="10" fill="#fef9c3" stroke="#ca8a04" stroke-width="3"/><circle cx="31" cy="47" r="4" fill="#ffffff"/></svg>',
+      'sleeping cat': '<svg viewBox="0 0 100 100"><ellipse cx="52" cy="62" rx="28" ry="18" fill="#fb923c" stroke="#1e293b" stroke-width="4"/><circle cx="34" cy="54" r="14" fill="#fb923c" stroke="#1e293b" stroke-width="4"/><polygon points="22,44 26,32 33,42" fill="#fb923c" stroke="#1e293b" stroke-width="3"/><polygon points="36,42 42,32 46,44" fill="#fb923c" stroke="#1e293b" stroke-width="3"/><path d="M28 54 Q31 57 34 54 M36 54 Q39 57 42 54" fill="none" stroke="#1e293b" stroke-width="2.5"/></svg>',
+      'bear': '<svg viewBox="0 0 100 100"><path d="M14 78 C14 34, 86 34, 86 78 Z" fill="#64748b" stroke="#1e293b" stroke-width="4"/><ellipse cx="50" cy="66" rx="22" ry="13" fill="#78350f" stroke="#1e293b" stroke-width="3.5"/><circle cx="38" cy="60" r="10" fill="#92400e" stroke="#1e293b" stroke-width="3"/><text x="62" y="34" font-size="14" font-weight="900" fill="#1e293b">Zzz</text></svg>',
+      'frog': '<svg viewBox="0 0 100 100"><rect x="14" y="64" width="72" height="20" rx="8" fill="#78350f" stroke="#1e293b" stroke-width="3.5"/><ellipse cx="50" cy="58" rx="20" ry="13" fill="#22c55e" stroke="#1e293b" stroke-width="4"/><circle cx="42" cy="46" r="5" fill="#22c55e" stroke="#1e293b" stroke-width="3"/><circle cx="58" cy="46" r="5" fill="#22c55e" stroke="#1e293b" stroke-width="3"/><text x="68" y="36" font-size="13" font-weight="900" fill="#15803d">Zzz</text></svg>',
+      'groundhog': '<svg viewBox="0 0 100 100"><ellipse cx="50" cy="76" rx="34" ry="10" fill="#92400e" stroke="#1e293b" stroke-width="3.5"/><path d="M36 74 L36 52 A14 14 0 0 1 64 52 L64 74 Z" fill="#b45309" stroke="#1e293b" stroke-width="4"/><circle cx="50" cy="56" r="5" fill="#fde68a"/><text x="66" y="36" font-size="13" font-weight="900" fill="#78350f">Zzz</text></svg>',
+      'bat': '<svg viewBox="0 0 100 100"><line x1="16" y1="20" x2="84" y2="20" stroke="#475569" stroke-width="5" stroke-linecap="round"/><ellipse cx="50" cy="46" rx="15" ry="22" fill="#334155" stroke="#1e293b" stroke-width="4"/><polygon points="40,64 44,74 48,66" fill="#334155" stroke="#1e293b" stroke-width="2.5"/><polygon points="52,66 56,74 60,64" fill="#334155" stroke="#1e293b" stroke-width="2.5"/><text x="68" y="54" font-size="13" font-weight="900" fill="#1e293b">Zzz</text></svg>',
+      'geese': '<svg viewBox="0 0 100 100"><path d="M58 26 L70 30 L58 34 M48 26 L62 18 M48 34 L62 42" fill="none" stroke="#1e293b" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 44 L36 48 L24 52 M14 44 L28 36 M14 52 L28 60" fill="none" stroke="#1e293b" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M36 68 L48 72 L36 76 M26 68 L40 60 M26 76 L40 84" fill="none" stroke="#1e293b" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+      'whale': '<svg viewBox="0 0 100 100"><path d="M22 54 C22 36, 54 32, 68 48 L84 40 L80 56 L86 68 L68 62 C54 74, 22 70, 22 54 Z" fill="#0284c7" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/><circle cx="34" cy="52" r="2.5" fill="#1e293b"/><path d="M44 34 Q40 22 34 24 M46 34 Q50 22 56 24" fill="none" stroke="#38bdf8" stroke-width="3.5" stroke-linecap="round"/></svg>',
+      'hummingbird': '<svg viewBox="0 0 100 100"><polygon points="72,44 92,46 72,49" fill="#1e293b"/><ellipse cx="54" cy="52" rx="18" ry="11" fill="#10b981" stroke="#1e293b" stroke-width="3.5" transform="rotate(-20 54 52)"/><polygon points="48,44 30,22 56,36" fill="#34d399" stroke="#1e293b" stroke-width="3.5" stroke-linejoin="round"/><polygon points="36,60 18,74 42,64" fill="#059669" stroke="#1e293b" stroke-width="3"/><circle cx="64" cy="45" r="2.5" fill="#1e293b"/></svg>'
     };
 
     /* ============================================================================
-       2. COMPLETE DATASET OF ALL 16 ACTIVITIES FROM THE PDF
+       2. ALL 22 GRADE 1 SCIENCE ACTIVITIES (E1.1 - E2.6)
        ============================================================================ */
     const ACTIVITIES = [
       {
-        id: 1,
-        code: 'E1.1',
-        unit: 'E1',
-        title: 'Winter Fun / Summer Fun',
-        emoji: '⛄',
-        type: 'sort',
+        id: 1, code: 'E1.1', unit: 'E1', title: 'Winter Fun / Summer Fun', emoji: '⛄', type: 'sort',
         instruction: 'Put each fun thing under Winter Fun or Summer Fun.',
+        teacherPrompt: 'E1.1: How does the weather in winter and summer change the games and activities we can play outside?',
         categories: [
           { id: 'winter', label: 'Winter Fun', emoji: '❄️', color: 'sky' },
           { id: 'summer', label: 'Summer Fun', emoji: '☀️', color: 'amber' }
@@ -829,13 +1470,9 @@
         ]
       },
       {
-        id: 2,
-        code: 'E1.1',
-        unit: 'E1',
-        title: 'In the Rain / In the Sun',
-        emoji: '☔',
-        type: 'sort',
+        id: 2, code: 'E1.1', unit: 'E1', title: 'In the Rain / In the Sun', emoji: '☔', type: 'sort',
         instruction: 'Put each thing under In the Rain or In the Sun.',
+        teacherPrompt: 'E1.1: What do we wear or use to stay safe and comfortable when the weather changes from sunny to rainy?',
         categories: [
           { id: 'rain', label: 'In the Rain', emoji: '🌧️', color: 'blue' },
           { id: 'sun', label: 'In the Sun', emoji: '☀️', color: 'amber' }
@@ -852,13 +1489,9 @@
         ]
       },
       {
-        id: 3,
-        code: 'E1.2',
-        unit: 'E1',
-        title: 'Fall / Spring',
-        emoji: '🍂',
-        type: 'sort',
+        id: 3, code: 'E1.2', unit: 'E1', title: 'Fall / Spring', emoji: '🍂', type: 'sort',
         instruction: 'Put each thing under Fall or Spring.',
+        teacherPrompt: 'E1.2: What signs of change do we see in gardens, parks, and trees in fall compared to spring?',
         categories: [
           { id: 'fall', label: 'Fall', emoji: '🍁', color: 'orange' },
           { id: 'spring', label: 'Spring', emoji: '🌷', color: 'emerald' }
@@ -875,13 +1508,9 @@
         ]
       },
       {
-        id: 4,
-        code: 'E1.2',
-        unit: 'E1',
-        title: 'Frozen / Melted',
-        emoji: '🧊',
-        type: 'sort',
+        id: 4, code: 'E1.2', unit: 'E1', title: 'Frozen / Melted', emoji: '🧊', type: 'sort',
         instruction: 'Put each thing under Frozen or Melted.',
+        teacherPrompt: 'E1.2: What happens to snow, ice, and puddles when the Sun warms up the air in spring?',
         categories: [
           { id: 'frozen', label: 'Frozen', emoji: '❄️', color: 'sky' },
           { id: 'melted', label: 'Melted', emoji: '💧', color: 'rose' }
@@ -898,13 +1527,9 @@
         ]
       },
       {
-        id: 5,
-        code: 'E2.1',
-        unit: 'E2',
-        title: 'Day to Night',
-        emoji: '🌅',
-        type: 'sequence',
+        id: 5, code: 'E2.1', unit: 'E2', title: 'Day to Night', emoji: '🌅', type: 'sequence',
         instruction: 'Put the cards in order from morning to night.',
+        teacherPrompt: 'E2.1: How does the sky look different in the morning, at midday, in the evening, and at night?',
         slots: [
           { id: 's1', step: '1', hint: 'First' },
           { id: 's2', step: '2', hint: 'Second' },
@@ -919,13 +1544,9 @@
         ]
       },
       {
-        id: 6,
-        code: 'E2.1',
-        unit: 'E2',
-        title: 'Summer Sun / Winter Sun',
-        emoji: '🌞',
-        type: 'sort',
+        id: 6, code: 'E2.1', unit: 'E2', title: 'Summer Sun / Winter Sun', emoji: '🌞', type: 'sort',
         instruction: 'Put each thing under Summer Sun or Winter Sun.',
+        teacherPrompt: 'E2.1: Even though the Sun shines in winter too, why does winter feel so much colder than summer?',
         categories: [
           { id: 'summer', label: 'Summer Sun', emoji: '☀️', color: 'amber' },
           { id: 'winter', label: 'Winter Sun', emoji: '❄️', color: 'sky' }
@@ -942,13 +1563,9 @@
         ]
       },
       {
-        id: 7,
-        code: 'E2.2',
-        unit: 'E2',
-        title: 'Seasons in Order',
-        emoji: '🔄',
-        type: 'sequence',
+        id: 7, code: 'E2.2', unit: 'E2', title: 'Seasons in Order', emoji: '🔄', type: 'sequence',
         instruction: 'Put the seasons in order, starting with winter.',
+        teacherPrompt: 'E2.2: A cycle repeats over and over! Which season always comes again right after fall?',
         slots: [
           { id: 's1', step: '1', hint: 'Start: Winter' },
           { id: 's2', step: '2', hint: 'Next' },
@@ -963,21 +1580,17 @@
         ]
       },
       {
-        id: 8,
-        code: 'E2.2',
-        unit: 'E2',
-        title: 'Finish the Pattern',
-        emoji: '🧩',
-        type: 'pattern',
+        id: 8, code: 'E2.2', unit: 'E2', title: 'Finish the Pattern', emoji: '🧩', type: 'pattern',
         instruction: 'Put the missing picture at the end to finish each pattern.',
+        teacherPrompt: 'E2.2: How are day and night or the four seasons like a repeating pattern?',
         rows: [
           {
             id: 'r1',
             sequence: [
-              { label: 'moon', icon: 'moon' },
               { label: 'sun', icon: 'sun' },
               { label: 'moon', icon: 'moon' },
-              { label: 'sun', icon: 'sun' }
+              { label: 'sun', icon: 'sun' },
+              { label: 'moon', icon: 'moon' }
             ],
             targetId: 'r1'
           },
@@ -1005,17 +1618,13 @@
         cards: [
           { id: 'c1', label: 'leaves', icon: 'leaves', target: 'r2' },
           { id: 'c2', label: 'flower', icon: 'flower', target: 'r3' },
-          { id: 'c3', label: 'moon', icon: 'moon', target: 'r1' }
+          { id: 'c3', label: 'sun', icon: 'sun', target: 'r1' }
         ]
       },
       {
-        id: 9,
-        code: 'E2.3',
-        unit: 'E2',
-        title: 'Warm / Cool',
-        emoji: '🌡️',
-        type: 'sort',
+        id: 9, code: 'E2.3', unit: 'E2', title: 'Warm / Cool', emoji: '🌡️', type: 'sort',
         instruction: 'Put each thing under Warm or Cool.',
+        teacherPrompt: 'E2.3: How can we tell by looking at a thermometer whether the air outside is warm or cool?',
         categories: [
           { id: 'warm', label: 'Warm', emoji: '🔥', color: 'rose' },
           { id: 'cool', label: 'Cool', emoji: '🧊', color: 'sky' }
@@ -1032,13 +1641,9 @@
         ]
       },
       {
-        id: 10,
-        code: 'E2.3',
-        unit: 'E2',
-        title: 'Bright / Cloudy',
-        emoji: '⛅',
-        type: 'sort',
+        id: 10, code: 'E2.3', unit: 'E2', title: 'Bright / Cloudy', emoji: '⛅', type: 'sort',
         instruction: 'Put each thing under Bright or Cloudy.',
+        teacherPrompt: 'E2.3: What happens to the light and warmth outside when clouds cover the Sun?',
         categories: [
           { id: 'bright', label: 'Bright', emoji: '☀️', color: 'amber' },
           { id: 'cloudy', label: 'Cloudy', emoji: '☁️', color: 'slate' }
@@ -1055,13 +1660,9 @@
         ]
       },
       {
-        id: 11,
-        code: 'E2.4',
-        unit: 'E2',
-        title: 'The Four Seasons',
-        emoji: '🗓️',
-        type: 'sort',
+        id: 11, code: 'E2.4', unit: 'E2', title: 'The Four Seasons', emoji: '🗓️', type: 'sort',
         instruction: 'Put each thing in its season: Winter, Spring, Summer, or Fall.',
+        teacherPrompt: 'E2.4: Which season is your favourite, and what weather and nature clues tell you that season has arrived?',
         categories: [
           { id: 'winter', label: 'Winter', emoji: '❄️', color: 'sky' },
           { id: 'spring', label: 'Spring', emoji: '🌷', color: 'emerald' },
@@ -1084,13 +1685,9 @@
         ]
       },
       {
-        id: 12,
-        code: 'E2.4',
-        unit: 'E2',
-        title: 'Snow / Rain',
-        emoji: '🌨️',
-        type: 'sort',
+        id: 12, code: 'E2.4', unit: 'E2', title: 'Snow / Rain', emoji: '🌨️', type: 'sort',
         instruction: 'Put each thing under Snow or Rain.',
+        teacherPrompt: 'E2.4: Why does water fall from clouds as snow in winter and rain in warmer weather?',
         categories: [
           { id: 'snow', label: 'Snow', emoji: '❄️', color: 'sky' },
           { id: 'rain', label: 'Rain', emoji: '🌧️', color: 'blue' }
@@ -1107,13 +1704,9 @@
         ]
       },
       {
-        id: 13,
-        code: 'E2.5',
-        unit: 'E2',
-        title: 'Animals / Plants in Fall',
-        emoji: '🦉',
-        type: 'sort',
+        id: 13, code: 'E2.5', unit: 'E2', title: 'Animals / Plants in Fall', emoji: '🦉', type: 'sort',
         instruction: 'Put each living thing under Animals or Plants.',
+        teacherPrompt: 'E2.5: What are squirrels, birds, and trees doing in fall to get ready for the cold winter?',
         categories: [
           { id: 'animals', label: 'Animals', emoji: '🐿️', color: 'amber' },
           { id: 'plants', label: 'Plants', emoji: '🍁', color: 'emerald' }
@@ -1130,13 +1723,9 @@
         ]
       },
       {
-        id: 14,
-        code: 'E2.5',
-        unit: 'E2',
-        title: 'A Tree All Year',
-        emoji: '🌳',
-        type: 'sequence',
+        id: 14, code: 'E2.5', unit: 'E2', title: 'A Tree All Year', emoji: '🌳', type: 'sequence',
         instruction: 'Put the tree pictures in order through the year, starting with winter.',
+        teacherPrompt: 'E2.5: How does a deciduous tree change its leaves and branches across all four seasons?',
         slots: [
           { id: 's1', step: '1', hint: 'Winter' },
           { id: 's2', step: '2', hint: 'Spring' },
@@ -1151,13 +1740,9 @@
         ]
       },
       {
-        id: 15,
-        code: 'E2.6',
-        unit: 'E2',
-        title: 'Dress for Winter / Summer',
-        emoji: '🧥',
-        type: 'sort',
+        id: 15, code: 'E2.6', unit: 'E2', title: 'Dress for Winter / Summer', emoji: '🧥', type: 'sort',
         instruction: 'Put each clothing under Dress for Winter or Dress for Summer.',
+        teacherPrompt: 'E2.6: Why do we wear layers, mittens, and boots in winter, and light clothes in summer?',
         categories: [
           { id: 'winter', label: 'Dress for Winter', emoji: '❄️', color: 'sky' },
           { id: 'summer', label: 'Dress for Summer', emoji: '☀️', color: 'amber' }
@@ -1174,13 +1759,9 @@
         ]
       },
       {
-        id: 16,
-        code: 'E2.6',
-        unit: 'E2',
-        title: 'Snowy Day / Sunny Day',
-        emoji: '🧣',
-        type: 'sort',
+        id: 16, code: 'E2.6', unit: 'E2', title: 'Snowy Day / Sunny Day', emoji: '🧣', type: 'sort',
         instruction: 'Put each thing under Snowy Day or Sunny Day.',
+        teacherPrompt: 'E2.6: Before going outside for recess, how do you check the weather so you bring the right gear?',
         categories: [
           { id: 'snowy', label: 'Snowy Day', emoji: '❄️', color: 'sky' },
           { id: 'sunny', label: 'Sunny Day', emoji: '☀️', color: 'amber' }
@@ -1195,35 +1776,148 @@
           { id: 'c7', label: 't-shirt', icon: 't-shirt', target: 'sunny' },
           { id: 'c8', label: 'snow shovel', icon: 'snow shovel', target: 'snowy' }
         ]
+      },
+      {
+        id: 17, code: 'E1.1', unit: 'E1', title: 'Year-Round Play', emoji: '🏟️', type: 'sort',
+        instruction: 'Sort activities into Outdoors Only or Indoor All Year.',
+        teacherPrompt: 'E1.1: How do buildings like indoor pools, skating rinks, and greenhouses let people enjoy activities in any season?',
+        categories: [
+          { id: 'outdoors', label: 'Outdoors Only', emoji: '🌲', color: 'emerald' },
+          { id: 'indoor', label: 'Indoor All Year', emoji: '🏟️', color: 'blue' }
+        ],
+        cards: [
+          { id: 'c1', label: 'sled', icon: 'sled', target: 'outdoors' },
+          { id: 'c2', label: 'skating rink', icon: 'skating rink', target: 'indoor' },
+          { id: 'c3', label: 'beach ball', icon: 'beach ball', target: 'outdoors' },
+          { id: 'c4', label: 'indoor pool', icon: 'indoor pool', target: 'indoor' },
+          { id: 'c5', label: 'flower', icon: 'flower', target: 'outdoors' },
+          { id: 'c6', label: 'greenhouse', icon: 'greenhouse', target: 'indoor' },
+          { id: 'c7', label: 'rain boots', icon: 'rain boots', target: 'outdoors' },
+          { id: 'c8', label: 'gym', icon: 'gym', target: 'indoor' }
+        ]
+      },
+      {
+        id: 18, code: 'E1.2', unit: 'E1', title: 'Seasonal Helpers', emoji: '🚜', type: 'sort',
+        instruction: 'Put each helper under Winter Care or Summer Care.',
+        teacherPrompt: 'E1.2: How do people in our community care for roads, birds, and plants when the seasons change?',
+        categories: [
+          { id: 'winter', label: 'Winter Care', emoji: '❄️', color: 'sky' },
+          { id: 'summer', label: 'Summer Care', emoji: '☀️', color: 'amber' }
+        ],
+        cards: [
+          { id: 'c1', label: 'snowplow', icon: 'snowplow', target: 'winter' },
+          { id: 'c2', label: 'watering can', icon: 'watering can', target: 'summer' },
+          { id: 'c3', label: 'road salt', icon: 'road salt', target: 'winter' },
+          { id: 'c4', label: 'sun hat', icon: 'sun hat', target: 'summer' },
+          { id: 'c5', label: 'bird feeder', icon: 'bird feeder', target: 'winter' },
+          { id: 'c6', label: 'sunshade', icon: 'sunshade', target: 'summer' },
+          { id: 'c7', label: 'scarf', icon: 'scarf', target: 'winter' },
+          { id: 'c8', label: 'fan', icon: 'fan', target: 'summer' }
+        ]
+      },
+      {
+        id: 19, code: 'E2.1', unit: 'E2', title: 'Sun & Sky: Day or Night', emoji: '🌗', type: 'sort',
+        instruction: 'Put each thing under Daytime or Nighttime.',
+        teacherPrompt: 'E2.1: How does the Sun give Earth light and warmth during the day, and why does it get dark at night?',
+        categories: [
+          { id: 'daytime', label: 'Daytime', emoji: '☀️', color: 'amber' },
+          { id: 'nighttime', label: 'Nighttime', emoji: '🌙', color: 'slate' }
+        ],
+        cards: [
+          { id: 'c1', label: 'sun', icon: 'sun', target: 'daytime' },
+          { id: 'c2', label: 'moon', icon: 'moon', target: 'nighttime' },
+          { id: 'c3', label: 'rainbow', icon: 'rainbow', target: 'daytime' },
+          { id: 'c4', label: 'stars', icon: 'stars', target: 'nighttime' },
+          { id: 'c5', label: 'bird', icon: 'bird', target: 'daytime' },
+          { id: 'c6', label: 'owl', icon: 'owl', target: 'nighttime' },
+          { id: 'c7', label: 'beach ball', icon: 'beach ball', target: 'daytime' },
+          { id: 'c8', label: 'sleeping bed', icon: 'sleeping bed', target: 'nighttime' }
+        ]
+      },
+      {
+        id: 20, code: 'E2.3', unit: 'E2', title: 'Sunlight & Heat', emoji: '☀️', type: 'sort',
+        instruction: 'Sort into More Sun & Heat or Less Sun & Heat.',
+        teacherPrompt: 'E2.3: In summer the days stay light much longer than in winter. How does more sunlight change the temperature?',
+        categories: [
+          { id: 'more', label: 'More Sun & Heat', emoji: '🌞', color: 'orange' },
+          { id: 'less', label: 'Less Sun & Heat', emoji: '❄️', color: 'sky' }
+        ],
+        cards: [
+          { id: 'c1', label: 'sun', icon: 'sun', target: 'more' },
+          { id: 'c2', label: 'cold', icon: 'cold', target: 'less' },
+          { id: 'c3', label: 'hot', icon: 'hot', target: 'more' },
+          { id: 'c4', label: 'snowflake', icon: 'snowflake', target: 'less' },
+          { id: 'c5', label: 'ice cream', icon: 'ice cream', target: 'more' },
+          { id: 'c6', label: 'mittens', icon: 'mittens', target: 'less' },
+          { id: 'c7', label: 'sunglasses', icon: 'sunglasses', target: 'more' },
+          { id: 'c8', label: 'snowman', icon: 'snowman', target: 'less' }
+        ]
+      },
+      {
+        id: 21, code: 'E2.4', unit: 'E2', title: 'Windy or Calm?', emoji: '🪁', type: 'sort',
+        instruction: 'Put each picture under Windy Day or Calm Day.',
+        teacherPrompt: 'E2.4: We cannot see wind, so what clues in nature and around our schoolyard show us that the air is moving?',
+        categories: [
+          { id: 'windy', label: 'Windy Day', emoji: '💨', color: 'sky' },
+          { id: 'calm', label: 'Calm Day', emoji: '🍃', color: 'emerald' }
+        ],
+        cards: [
+          { id: 'c1', label: 'kite', icon: 'kite', target: 'windy' },
+          { id: 'c2', label: 'still pond', icon: 'still pond', target: 'calm' },
+          { id: 'c3', label: 'pinwheel', icon: 'pinwheel', target: 'windy' },
+          { id: 'c4', label: 'flower', icon: 'flower', target: 'calm' },
+          { id: 'c5', label: 'sailboat', icon: 'sailboat', target: 'windy' },
+          { id: 'c6', label: 'soap bubbles', icon: 'soap bubbles', target: 'calm' },
+          { id: 'c7', label: 'blowing leaves', icon: 'blowing leaves', target: 'windy' },
+          { id: 'c8', label: 'sleeping cat', icon: 'sleeping cat', target: 'calm' }
+        ]
+      },
+      {
+        id: 22, code: 'E2.5', unit: 'E2', title: 'Winter Animals', emoji: '🐻', type: 'sort',
+        instruction: 'Sort each animal into Hibernate (Sleep) or Migrate (Travel).',
+        teacherPrompt: 'E2.5: Why do some animals sleep through winter (hibernate) while birds, whales, and butterflies travel to warmer places (migrate)?',
+        categories: [
+          { id: 'hibernate', label: 'Hibernate (Sleep)', emoji: '💤', color: 'amber' },
+          { id: 'migrate', label: 'Migrate (Travel)', emoji: '🧭', color: 'blue' }
+        ],
+        cards: [
+          { id: 'c1', label: 'bear', icon: 'bear', target: 'hibernate' },
+          { id: 'c2', label: 'geese', icon: 'geese', target: 'migrate' },
+          { id: 'c3', label: 'frog', icon: 'frog', target: 'hibernate' },
+          { id: 'c4', label: 'butterfly', icon: 'butterfly', target: 'migrate' },
+          { id: 'c5', label: 'groundhog', icon: 'groundhog', target: 'hibernate' },
+          { id: 'c6', label: 'whale', icon: 'whale', target: 'migrate' },
+          { id: 'c7', label: 'bat', icon: 'bat', target: 'hibernate' },
+          { id: 'c8', label: 'hummingbird', icon: 'hummingbird', target: 'migrate' }
+        ]
       }
     ];
 
     /* ============================================================================
-       3. STATE MANAGEMENT & PERSISTENCE
+       3. APP STATE & SAFE LOCALSTORAGE
        ============================================================================ */
     let currentActivity = null;
     let selectedCardId = null;
-    let placedCards = {}; // { cardId: targetId }
-    let isGraded = false; // True after student presses "Check My Work!"
-    let lockedCards = {}; // { cardId: true } when fixing mistakes
-    let lastGradeSummary = null; // { score, total, pct, spokenText }
+    let placedCards = {};
+    let isGraded = false;
+    let lockedCards = {};
+    let lastGradeSummary = null;
     let autoReadEnabled = true;
+    let speechRate = 0.88;
+    let sfxMuted = false;
     let currentUnitFilter = 'ALL';
-    let activityScores = {}; // { [activityId]: { score, total, pct, stars } }
+    let activityScores = {};
     let studentName = '';
 
-    // Load saved marks and student name safely
     try {
-      const savedScores = JSON.parse(localStorage.getItem('grade1_seasons_scores') || '{}');
-      if (savedScores && typeof savedScores === 'object') activityScores = savedScores;
+      const saved = JSON.parse(localStorage.getItem('grade1_seasons_scores_v2') || '{}');
+      if (saved && typeof saved === 'object') activityScores = saved;
       studentName = localStorage.getItem('grade1_seasons_student_name') || '';
-    } catch (e) {
-      console.warn('LocalStorage unavailable');
-    }
+    } catch (e) {}
 
     function saveProgress() {
       try {
-        localStorage.setItem('grade1_seasons_scores', JSON.stringify(activityScores));
+        localStorage.setItem('grade1_seasons_scores_v2', JSON.stringify(activityScores));
       } catch (e) {}
       updateStarsUI();
     }
@@ -1236,22 +1930,24 @@
     }
 
     /* ============================================================================
-       4. TEXT-TO-SPEECH (READ ALOUD) & SYNTHESIZED SOUND EFFECTS
+       4. TEXT-TO-SPEECH & SYNTHESIZED SOUND EFFECTS
        ============================================================================ */
     let audioCtx = null;
 
     function unlockAudio() {
-      if (!audioCtx) {
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        if (AudioContext) audioCtx = new AudioContext();
-      }
-      if (audioCtx && audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
+      try {
+        if (!audioCtx) {
+          const AC = window.AudioContext || window.webkitAudioContext;
+          if (AC) audioCtx = new AC();
+        }
+        if (audioCtx && audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+      } catch (e) {}
     }
 
-    // Play pleasant synthesized chime/boop without external files
     function playSound(type) {
+      if (sfxMuted) return;
       try {
         unlockAudio();
         if (!audioCtx) return;
@@ -1263,12 +1959,12 @@
 
         if (type === 'correct') {
           osc.type = 'triangle';
-          osc.frequency.setValueAtTime(523.25, now); // C5
-          osc.frequency.setValueAtTime(659.25, now + 0.08); // E5
-          gain.gain.setValueAtTime(0.18, now);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
+          osc.frequency.setValueAtTime(523.25, now);
+          osc.frequency.setValueAtTime(659.25, now + 0.08);
+          gain.gain.setValueAtTime(0.16, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
           osc.start(now);
-          osc.stop(now + 0.28);
+          osc.stop(now + 0.25);
         } else if (type === 'wrong') {
           osc.type = 'sine';
           osc.frequency.setValueAtTime(240, now);
@@ -1278,43 +1974,74 @@
           osc.start(now);
           osc.stop(now + 0.22);
         } else if (type === 'win') {
-          const notes = [523.25, 659.25, 783.99, 1046.5];
-          notes.forEach((freq, idx) => {
+          [523.25, 659.25, 783.99, 1046.5].forEach((freq, idx) => {
             const o = audioCtx.createOscillator();
             const g = audioCtx.createGain();
             o.type = 'triangle';
             o.connect(g);
             g.connect(audioCtx.destination);
-            o.frequency.setValueAtTime(freq, now + idx * 0.11);
-            g.gain.setValueAtTime(0.18, now + idx * 0.11);
-            g.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.11 + 0.35);
-            o.start(now + idx * 0.11);
-            o.stop(now + idx * 0.11 + 0.35);
+            o.frequency.setValueAtTime(freq, now + idx * 0.1);
+            g.gain.setValueAtTime(0.16, now + idx * 0.1);
+            g.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.1 + 0.32);
+            o.start(now + idx * 0.1);
+            o.stop(now + idx * 0.1 + 0.32);
           });
         }
       } catch (e) {}
     }
 
-    function speakText(text, force = true) {
+    function speakText(text, force = true, highlightEl = null) {
       if (!force && !autoReadEnabled) return;
       if (!('speechSynthesis' in window)) return;
       try {
         window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.rate = 0.88; // Slightly slower & clearer for Grade 1 readers
-        utterance.pitch = 1.05;
-        // Prefer friendly English voice if loaded
+        document.querySelectorAll('.speaking-highlight').forEach(el => el.classList.remove('speaking-highlight'));
+        if (highlightEl) highlightEl.classList.add('speaking-highlight');
+
+        const utt = new SpeechSynthesisUtterance(text);
+        utt.rate = speechRate;
+        utt.pitch = 1.05;
         const voices = window.speechSynthesis.getVoices();
         const preferred = voices.find(v => /en(-|_)(US|CA|GB)/i.test(v.lang) && /Samantha|Google|Natural|Daniel|Karen/i.test(v.name))
                        || voices.find(v => /en/i.test(v.lang));
-        if (preferred) utterance.voice = preferred;
-        window.speechSynthesis.speak(utterance);
+        if (preferred) utt.voice = preferred;
+        utt.onend = () => { if (highlightEl) highlightEl.classList.remove('speaking-highlight'); };
+        utt.onerror = () => { if (highlightEl) highlightEl.classList.remove('speaking-highlight'); };
+        window.speechSynthesis.speak(utt);
       } catch (e) {}
     }
 
-    // Preload voices on iPad/Chrome
     if ('speechSynthesis' in window) {
-      window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+      window.speechSynthesis.onvoiceschanged = () => {
+        try { window.speechSynthesis.getVoices(); } catch (e) {}
+      };
+    }
+
+    function toggleSpeechRate() {
+      const label = document.getElementById('speedLabel');
+      if (speechRate > 0.75) {
+        speechRate = 0.68;
+        label.textContent = 'Slower';
+        speakText('Reading slower.', true);
+      } else {
+        speechRate = 0.88;
+        label.textContent = 'Normal';
+        speakText('Normal reading speed.', true);
+      }
+    }
+
+    function toggleSfxMute() {
+      sfxMuted = !sfxMuted;
+      const icon = document.getElementById('sfxIcon');
+      const btn = document.getElementById('sfxToggle');
+      if (sfxMuted) {
+        icon.textContent = '🔕';
+        btn.classList.add('muted');
+      } else {
+        icon.textContent = '🔔';
+        btn.classList.remove('muted');
+        playSound('correct');
+      }
     }
 
     function toggleAutoRead() {
@@ -1325,33 +2052,30 @@
       if (autoReadEnabled) {
         icon.textContent = '🔊';
         label.textContent = 'Auto-Read: ON';
-        btn.className = 'flex items-center gap-2 bg-emerald-100 hover:bg-emerald-200 border-2 border-emerald-400 text-emerald-900 font-bold text-sm sm:text-base px-3.5 py-2.5 rounded-2xl transition active:scale-95';
+        btn.className = 'btn btn-read-on';
         speakText('Auto read is on.');
       } else {
         icon.textContent = '🔇';
         label.textContent = 'Auto-Read: OFF';
-        btn.className = 'flex items-center gap-2 bg-slate-100 hover:bg-slate-200 border-2 border-slate-300 text-slate-700 font-bold text-sm sm:text-base px-3.5 py-2.5 rounded-2xl transition active:scale-95';
-        window.speechSynthesis.cancel();
+        btn.className = 'btn btn-read-off';
+        try { window.speechSynthesis.cancel(); } catch (e) {}
       }
     }
 
     /* ============================================================================
-       5. HOME MENU RENDERING & FILTERING
+       5. HOME MENU & FILTERING
        ============================================================================ */
     function updateStarsUI() {
       const count = Object.keys(activityScores).length;
-      document.getElementById('starsCountText').textContent = `${count} / 16 Done`;
-      document.getElementById('menuStarsText').textContent = `${count} of 16 Graded`;
+      const total = ACTIVITIES.length;
+      document.getElementById('headerProgressBadge').textContent = `⭐ ${count} / ${total} Done`;
+      document.getElementById('menuStarsText').textContent = `${count} of ${total} Graded`;
     }
 
     function filterUnit(unit) {
       currentUnitFilter = unit;
-      document.querySelectorAll('.unit-filter-btn').forEach(btn => {
-        if (btn.dataset.unit === unit) {
-          btn.className = 'unit-filter-btn bg-sky-600 text-white font-bold px-4 py-2.5 rounded-2xl shadow text-sm sm:text-base transition';
-        } else {
-          btn.className = 'unit-filter-btn bg-white hover:bg-sky-50 text-slate-700 border-2 border-slate-200 font-bold px-4 py-2.5 rounded-2xl text-sm sm:text-base transition';
-        }
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.unit === unit);
       });
       renderMenu();
     }
@@ -1360,68 +2084,53 @@
       const grid = document.getElementById('activitiesGrid');
       grid.innerHTML = '';
 
-      const filtered = ACTIVITIES.filter(a => currentUnitFilter === 'ALL' || a.unit === currentUnitFilter);
-
-      filtered.forEach(act => {
-        const record = activityScores[act.id];
-        const isDone = Boolean(record);
-        const isPerfect = record && record.score === record.total;
+      const list = ACTIVITIES.filter(a => currentUnitFilter === 'ALL' || a.unit === currentUnitFilter);
+      list.forEach(act => {
+        const rec = activityScores[act.id];
+        const isDone = Boolean(rec);
+        const isPerfect = rec && rec.score === rec.total;
 
         const card = document.createElement('div');
-        card.className = `group bg-white rounded-3xl border-4 ${isPerfect ? 'border-emerald-400 bg-emerald-50/40' : isDone ? 'border-amber-400 bg-amber-50/30' : 'border-sky-200 hover:border-sky-400'} p-4 shadow-sm hover:shadow-md transition flex flex-col justify-between gap-3 cursor-pointer`;
+        card.className = 'menu-card' + (isPerfect ? ' perfect' : isDone ? ' done' : '');
         card.onclick = (e) => {
           if (e.target.closest('.speak-btn')) return;
           startActivity(act.id);
         };
 
         const markPill = isDone
-          ? `<span class="inline-flex items-center gap-1 ${isPerfect ? 'bg-emerald-100 text-emerald-900 border-emerald-400' : 'bg-amber-100 text-amber-900 border-amber-400'} border-2 font-display font-bold text-xs px-2.5 py-0.5 rounded-xl">
-              <span>${record.score}/${record.total}</span>
-              <span>${'⭐'.repeat(record.stars)}</span>
-            </span>`
+          ? `<span class="mark-pill ${isPerfect ? 'perfect' : ''}">${rec.score}/${rec.total} ${'⭐'.repeat(rec.stars)}</span>`
           : '';
 
+        const safeSpeak = `${act.title}. ${act.instruction}`.replace(/'/g, "\\'");
         card.innerHTML = `
           <div>
-            <div class="flex items-center justify-between gap-1.5 mb-2">
-              <span class="bg-sky-100 text-sky-900 font-extrabold text-xs px-2.5 py-1 rounded-xl border border-sky-200">
-                #${act.id} • ${act.code}
-              </span>
-              <div class="flex items-center gap-1.5">
+            <div class="menu-card-top">
+              <span class="code-badge">#${act.id} • ${act.code}</span>
+              <div style="display:flex;align-items:center;gap:6px;">
                 ${markPill}
-                <button onclick="speakText('${act.title.replace(/'/g, "\\'")}. ${act.instruction.replace(/'/g, "\\'")}')" class="speak-btn w-10 h-10 rounded-full bg-amber-300 hover:bg-amber-400 border-2 border-amber-500 flex items-center justify-center text-lg shadow-sm shrink-0" aria-label="Read activity title">
-                  🔊
-                </button>
+                <button onclick="speakText('${safeSpeak}', true)" class="speak-btn" aria-label="Read activity">🔊</button>
               </div>
             </div>
-            <div class="flex items-center gap-3 mt-1">
-              <div class="w-14 h-14 rounded-2xl bg-sky-50 border-2 border-sky-100 flex items-center justify-center text-3xl shrink-0">
-                ${act.emoji}
-              </div>
-              <h3 class="font-display font-bold text-lg sm:text-xl text-slate-900 leading-snug">
-                ${act.title}
-              </h3>
+            <div class="menu-card-body" style="margin-top:10px;">
+              <div class="menu-emoji">${act.emoji}</div>
+              <h3 class="menu-title">${act.title}</h3>
             </div>
           </div>
-
-          <button class="w-full py-2.5 px-4 rounded-2xl font-display font-bold text-base ${isPerfect ? 'bg-emerald-500 hover:bg-emerald-600 text-white' : isDone ? 'bg-amber-500 hover:bg-amber-600 text-white' : 'bg-sky-500 group-hover:bg-sky-600 text-white'} transition flex items-center justify-center gap-2 shadow-sm">
-            <span>${isDone ? 'Try Again' : 'Start Activity'}</span>
-            <span>▶️</span>
-          </button>
+          <button class="menu-start-btn">${isDone ? 'Try Again ▶️' : 'Start Activity ▶️'}</button>
         `;
         grid.appendChild(card);
       });
     }
 
     function showMenu() {
-      window.speechSynthesis && window.speechSynthesis.cancel();
+      try { window.speechSynthesis.cancel(); } catch (e) {}
       document.getElementById('activityView').classList.add('hidden');
       document.getElementById('menuView').classList.remove('hidden');
       renderMenu();
     }
 
     /* ============================================================================
-       6. ACTIVITY GAMEPLAY ENGINE (UNRESTRICTED PLACEMENT + CHECK & MARKING)
+       6. ACTIVITY WORKSPACE & BOARD RENDERING
        ============================================================================ */
     function startActivity(id) {
       unlockAudio();
@@ -1439,10 +2148,13 @@
       document.getElementById('completionBanner').classList.add('hidden');
       document.getElementById('trayWrapper').classList.remove('hidden');
       document.getElementById('checkWorkBar').classList.remove('hidden');
+      document.getElementById('teacherPromptBox').classList.add('hidden');
 
       document.getElementById('actBadge').textContent = `#${currentActivity.id} • ${currentActivity.code}`;
       document.getElementById('actTitle').textContent = currentActivity.title;
       document.getElementById('actInstruction').textContent = currentActivity.instruction;
+      document.getElementById('teacherExpectationLabel').textContent = `Ontario Grade 1 Science • Expectation ${currentActivity.code}`;
+      document.getElementById('teacherPromptText').textContent = currentActivity.teacherPrompt || '';
 
       updateHelperTipText();
       renderBoard();
@@ -1454,34 +2166,38 @@
       }
     }
 
+    function toggleTeacherPrompt() {
+      document.getElementById('teacherPromptBox').classList.toggle('hidden');
+    }
+
     function updateHelperTipText() {
-      const tipEl = document.getElementById('helperTipText');
+      const tip = document.getElementById('helperTipText');
+      const held = selectedCardId ? currentActivity.cards.find(c => c.id === selectedCardId) : null;
       if (isGraded) {
-        tipEl.textContent = 'Green ✓ cards are right! Red ✗ cards need another look.';
+        tip.textContent = '✅ Green cards are right! ❌ Red cards need another look.';
+      } else if (held) {
+        tip.textContent = `✋ You picked "${held.label}"! Now tap the box where it goes (or drag it there).`;
       } else if (currentActivity.type === 'sequence') {
-        tipEl.textContent = 'Place all 4 cards into boxes 1 to 4, then tap "Check My Work!"';
+        tip.textContent = '🔢 Place all 4 cards into boxes 1 to 4, then tap "Check My Work!"';
       } else if (currentActivity.type === 'pattern') {
-        tipEl.textContent = 'Put a card in each "What\'s next?" box, then tap "Check My Work!"';
+        tip.textContent = '🧩 Put a card in each "What\'s next?" box, then tap "Check My Work!"';
       } else {
-        tipEl.textContent = 'Sort all cards into the boxes (tap a placed card to move it back), then tap "Check My Work!"';
+        tip.textContent = '👆 Tap or drag cards into the boxes (tap a placed card to move it back), then tap "Check My Work!"';
       }
     }
 
     function resetCurrentActivity() {
-      if (currentActivity) {
-        startActivity(currentActivity.id);
-      }
+      if (currentActivity) startActivity(currentActivity.id);
     }
 
     function readCurrentInstruction() {
-      if (!currentActivity) return;
-      speakText(`${currentActivity.title}. ${currentActivity.instruction}`, true);
+      if (currentActivity) {
+        speakText(`${currentActivity.title}. ${currentActivity.instruction}`, true);
+      }
     }
 
     function readCompletionMessage() {
-      if (lastGradeSummary) {
-        speakText(lastGradeSummary.spokenText, true);
-      }
+      if (lastGradeSummary) speakText(lastGradeSummary.spokenText, true);
     }
 
     function goToNextActivity() {
@@ -1494,179 +2210,154 @@
       const btn = document.getElementById('checkWorkBtn');
       if (!btn || !currentActivity) return;
       const total = currentActivity.cards.length;
-      const placedCount = Object.keys(placedCards).length;
-      const allPlaced = placedCount === total;
+      const placed = Object.keys(placedCards).length;
 
-      if (allPlaced) {
-        btn.className = 'w-full sm:w-auto flex items-center justify-center gap-3 bg-emerald-500 hover:bg-emerald-600 active:scale-95 border-4 border-emerald-700 text-white font-display font-bold text-xl sm:text-2xl px-8 py-4 rounded-3xl shadow-lg transition animate-pop';
-        btn.innerHTML = `<span class="text-2xl sm:text-3xl">✅</span><span>Check My Work! (${placedCount}/${total})</span>`;
+      if (placed === total) {
+        btn.className = 'btn btn-check';
+        btn.innerHTML = `<span>✅</span><span>Check My Work! (${placed}/${total})</span>`;
       } else {
-        btn.className = 'w-full sm:w-auto flex items-center justify-center gap-3 bg-sky-500 hover:bg-sky-600 active:scale-95 border-4 border-sky-700 text-white font-display font-bold text-lg sm:text-xl px-7 py-3.5 rounded-3xl shadow-md transition';
-        btn.innerHTML = `<span class="text-2xl">📝</span><span>Check My Work (${placedCount} of ${total} placed)</span>`;
+        btn.className = 'btn btn-check partial';
+        btn.innerHTML = `<span>📝</span><span>Check My Work (${placed} of ${total} placed)</span>`;
       }
     }
 
-    /* ---------- Color Theme Helpers ---------- */
-    const COLOR_STYLES = {
-      sky: { bg: 'bg-sky-50/90', border: 'border-sky-400', header: 'bg-sky-500 text-white' },
-      amber: { bg: 'bg-amber-50/90', border: 'border-amber-400', header: 'bg-amber-500 text-white' },
-      blue: { bg: 'bg-blue-50/90', border: 'border-blue-400', header: 'bg-blue-600 text-white' },
-      orange: { bg: 'bg-orange-50/90', border: 'border-orange-400', header: 'bg-orange-500 text-white' },
-      emerald: { bg: 'bg-emerald-50/90', border: 'border-emerald-400', header: 'bg-emerald-600 text-white' },
-      rose: { bg: 'bg-rose-50/90', border: 'border-rose-400', header: 'bg-rose-500 text-white' },
-      slate: { bg: 'bg-slate-100/90', border: 'border-slate-400', header: 'bg-slate-600 text-white' }
-    };
-
-    /* ---------- Render Board Depending on Activity Type ---------- */
     function renderBoard() {
       const board = document.getElementById('boardContainer');
       board.innerHTML = '';
 
       if (currentActivity.type === 'sort') {
-        const isFourCol = currentActivity.categories.length === 4;
-        const gridCols = isFourCol ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4' : 'grid-cols-1 md:grid-cols-2';
-        const wrapper = document.createElement('div');
-        wrapper.className = `grid ${gridCols} gap-4`;
+        const isFour = currentActivity.categories.length === 4;
+        const wrap = document.createElement('div');
+        wrap.className = isFour ? 'sort-grid-4' : 'sort-grid-2';
 
         currentActivity.categories.forEach(cat => {
-          const style = COLOR_STYLES[cat.color] || COLOR_STYLES.sky;
           const cardsInCat = currentActivity.cards.filter(c => placedCards[c.id] === cat.id);
-
-          const zone = document.createElement('div');
-          zone.dataset.dropTarget = cat.id;
-          zone.className = `drop-zone rounded-3xl border-4 ${style.border} ${style.bg} p-3.5 sm:p-4 shadow-sm transition-all flex flex-col min-h-[220px] sm:min-h-[260px] cursor-pointer`;
-          zone.onclick = (e) => {
-            if (e.target.closest('.speak-btn') || e.target.closest('[data-placed-card]')) return;
+          const readyClass = (selectedCardId && !isGraded) ? ' drop-ready' : '';
+          const bin = document.createElement('div');
+          bin.dataset.dropTarget = cat.id;
+          bin.className = `drop-bin theme-${cat.color || 'sky'}${readyClass}`;
+          bin.onclick = (e) => {
+            if (e.target.closest('.speak-btn') || isTapOnLiveCard(e)) return;
             handleTargetTap(cat.id);
           };
 
-          zone.innerHTML = `
-            <div class="${style.header} rounded-2xl px-4 py-2.5 flex items-center justify-between gap-2 shadow-sm mb-3">
-              <div class="flex items-center gap-2">
-                <span class="text-2xl">${cat.emoji}</span>
-                <span class="font-display font-bold text-lg sm:text-xl">${cat.label}</span>
+          const safeCat = cat.label.replace(/'/g, "\\'");
+          bin.innerHTML = `
+            <div class="bin-header">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span style="font-size:1.5rem;">${cat.emoji}</span>
+                <span>${cat.label}</span>
               </div>
-              <button onclick="speakText('${cat.label.replace(/'/g, "\\'")}')" class="speak-btn w-10 h-10 rounded-full bg-white/95 hover:bg-white text-slate-900 flex items-center justify-center text-lg shadow shrink-0" aria-label="Read category ${cat.label}">
-                🔊
-              </button>
+              <button onclick="speakText('${safeCat}', true)" class="speak-btn" aria-label="Read ${cat.label}">🔊</button>
             </div>
-            <div class="grid ${isFourCol ? 'grid-cols-2 lg:grid-cols-1 xl:grid-cols-2' : 'grid-cols-2 sm:grid-cols-2'} gap-2.5 flex-1 content-start">
+            <div class="bin-cards-grid">
               ${cardsInCat.map(c => renderPlacedCardHTML(c)).join('')}
-              ${cardsInCat.length === 0 ? `
-                <div class="col-span-full h-32 border-3 border-dashed border-slate-300/80 rounded-2xl flex flex-col items-center justify-center text-slate-400 font-bold text-sm sm:text-base p-2 text-center">
-                  <span>Tap or drop cards here</span>
-                </div>
-              ` : ''}
+              ${cardsInCat.length === 0 ? '<div class="bin-placeholder">Tap or drop cards here</div>' : ''}
             </div>
+            ${(selectedCardId && !isGraded) ? '<div class="put-here">👇 Put it here</div>' : ''}
           `;
-          wrapper.appendChild(zone);
+          wrap.appendChild(bin);
         });
-
-        board.appendChild(wrapper);
+        board.appendChild(wrap);
       }
 
       else if (currentActivity.type === 'sequence') {
-        const wrapper = document.createElement('div');
-        wrapper.className = 'bg-white rounded-3xl border-4 border-sky-300 p-4 sm:p-6 shadow-sm';
-        const row = document.createElement('div');
-        row.className = 'grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 items-center';
+        const wrap = document.createElement('div');
+        wrap.className = 'seq-wrap';
+        const grid = document.createElement('div');
+        grid.className = 'seq-grid';
 
-        currentActivity.slots.forEach((slot) => {
+        currentActivity.slots.forEach(slot => {
           const placedCard = currentActivity.cards.find(c => placedCards[c.id] === slot.id);
           const isCorrect = placedCard && placedCard.target === slot.id;
-          const borderStyle = !placedCard
-            ? 'border-dashed border-amber-400 bg-amber-50/60'
-            : isGraded
-              ? (isCorrect ? 'border-emerald-500 bg-emerald-50' : 'border-rose-500 bg-rose-50')
-              : 'border-sky-400 bg-sky-50/70';
+          let slotState = '';
+          if (placedCard) {
+            slotState = isGraded ? (isCorrect ? ' graded-ok' : ' graded-bad') : ' filled';
+          } else if (selectedCardId && !isGraded) {
+            slotState = ' drop-ready';
+          }
 
-          const slotBox = document.createElement('div');
-          slotBox.dataset.dropTarget = slot.id;
-          slotBox.className = `drop-zone rounded-3xl border-4 ${borderStyle} p-3 sm:p-4 flex flex-col items-center justify-between min-h-[195px] sm:min-h-[225px] transition-all cursor-pointer relative`;
-          slotBox.onclick = (e) => {
-            if (e.target.closest('.speak-btn') || e.target.closest('[data-placed-card]')) return;
+          const slotEl = document.createElement('div');
+          slotEl.dataset.dropTarget = slot.id;
+          slotEl.className = `seq-slot${slotState}`;
+          slotEl.onclick = (e) => {
+            if (e.target.closest('.speak-btn') || isTapOnLiveCard(e)) return;
             handleTargetTap(slot.id);
           };
 
-          slotBox.innerHTML = `
-            <div class="w-full flex items-center justify-between mb-1">
-              <span class="w-9 h-9 rounded-full bg-amber-500 text-white font-display font-bold text-lg flex items-center justify-center shadow">
-                ${slot.step}
-              </span>
-              <span class="text-xs sm:text-sm font-extrabold text-amber-800 uppercase tracking-wide">${slot.hint}</span>
+          slotEl.innerHTML = `
+            <div class="seq-slot-top">
+              <span class="step-badge">${slot.step}</span>
+              <span style="font-size:0.8rem;font-weight:900;color:#92400e;text-transform:uppercase;">${slot.hint}</span>
             </div>
-            ${placedCard ? renderPlacedCardHTML(placedCard, true) : `
-              <div class="my-auto flex flex-col items-center text-amber-700/60 font-bold text-center">
-                <span class="text-3xl mb-1">⬇️</span>
-                <span class="text-sm">Place #${slot.step}</span>
+            ${placedCard ? renderPlacedCardHTML(placedCard) : `
+              <div style="margin:auto;text-align:center;color:#b45309;font-weight:800;">
+                <div style="font-size:1.8rem;">⬇️</div>
+                <div style="font-size:0.9rem;">Place #${slot.step}</div>
               </div>
             `}
           `;
-          row.appendChild(slotBox);
+          grid.appendChild(slotEl);
         });
 
-        wrapper.appendChild(row);
-        board.appendChild(wrapper);
+        wrap.appendChild(grid);
+        board.appendChild(wrap);
       }
 
       else if (currentActivity.type === 'pattern') {
-        const wrapper = document.createElement('div');
-        wrapper.className = 'space-y-3';
+        const list = document.createElement('div');
+        list.className = 'pattern-list';
 
-        currentActivity.rows.forEach((rowObj) => {
+        currentActivity.rows.forEach(rowObj => {
           const placedCard = currentActivity.cards.find(c => placedCards[c.id] === rowObj.targetId);
           const isCorrect = placedCard && placedCard.target === rowObj.targetId;
-          const slotStyle = !placedCard
-            ? 'border-dashed border-sky-400 bg-sky-50'
-            : isGraded
-              ? (isCorrect ? 'border-emerald-500 bg-emerald-50' : 'border-rose-500 bg-rose-50')
-              : 'border-sky-500 bg-sky-100/70';
+          let slotState = '';
+          if (placedCard) {
+            slotState = isGraded ? (isCorrect ? ' graded-ok' : ' graded-bad') : ' filled';
+          } else if (selectedCardId && !isGraded) {
+            slotState = ' drop-ready';
+          }
 
           const rowEl = document.createElement('div');
-          rowEl.className = 'bg-white rounded-3xl border-4 border-sky-200 p-3 sm:p-4 shadow-sm flex flex-col md:flex-row items-center justify-between gap-3';
+          rowEl.className = 'pattern-row';
 
-          const seqHTML = rowObj.sequence.map(item => `
-            <div class="flex flex-col items-center justify-center bg-amber-50/80 border-2 border-amber-200 rounded-2xl p-2 w-16 h-20 sm:w-20 sm:h-24 shrink-0">
-              <div class="scale-75 sm:scale-90">${ICONS[item.icon] || ''}</div>
-              <span class="text-[11px] sm:text-xs font-extrabold text-slate-700 capitalize leading-tight">${item.label}</span>
+          const seqItems = rowObj.sequence.map(item => `
+            <div class="pattern-clue">
+              ${ICONS[item.icon] || ''}
+              <span>${item.label}</span>
             </div>
-          `).join('<span class="text-slate-300 font-bold hidden sm:inline">➔</span>');
+          `).join('<span style="color:#94a3b8;font-weight:900;">➔</span>');
+
+          const safeRowSpeech = `${rowObj.sequence.map(s => s.label).join(', ')}, what comes next?`.replace(/'/g, "\\'");
+          const leftDiv = document.createElement('div');
+          leftDiv.className = 'pattern-seq';
+          leftDiv.innerHTML = `
+            <button onclick="speakText('${safeRowSpeech}', true)" class="speak-btn" aria-label="Read pattern">🔊</button>
+            ${seqItems}
+          `;
 
           const targetSlot = document.createElement('div');
           targetSlot.dataset.dropTarget = rowObj.targetId;
-          targetSlot.className = `drop-zone w-28 h-28 sm:w-32 sm:h-32 rounded-2xl border-4 ${slotStyle} flex flex-col items-center justify-center cursor-pointer transition-all shrink-0 p-1`;
+          targetSlot.className = `pattern-slot${slotState}`;
           targetSlot.onclick = (e) => {
-            if (e.target.closest('.speak-btn') || e.target.closest('[data-placed-card]')) return;
+            if (e.target.closest('.speak-btn') || isTapOnLiveCard(e)) return;
             handleTargetTap(rowObj.targetId);
           };
 
-          if (placedCard) {
-            targetSlot.innerHTML = renderPlacedCardHTML(placedCard, false);
-          } else {
-            targetSlot.innerHTML = `
-              <span class="text-2xl">❓</span>
-              <span class="text-xs font-extrabold text-sky-700">What's next?</span>
-            `;
-          }
+          targetSlot.innerHTML = placedCard
+            ? renderPlacedCardHTML(placedCard)
+            : '<div style="font-size:1.6rem;">❓</div><div style="font-size:0.78rem;font-weight:900;color:#0369a1;">What\'s next?</div>';
 
-          const leftSide = document.createElement('div');
-          leftSide.className = 'flex items-center gap-1.5 sm:gap-2.5 overflow-x-auto max-w-full pb-1 sm:pb-0';
-          leftSide.innerHTML = `
-            <button onclick="speakText('${rowObj.sequence.map(s => s.label).join(', ')}, what comes next?')" class="speak-btn w-10 h-10 rounded-full bg-amber-300 hover:bg-amber-400 border-2 border-amber-500 flex items-center justify-center text-lg shadow shrink-0 mr-1" aria-label="Read pattern row">
-              🔊
-            </button>
-            ${seqHTML}
-          `;
-
-          rowEl.appendChild(leftSide);
+          rowEl.appendChild(leftDiv);
           rowEl.appendChild(targetSlot);
-          wrapper.appendChild(rowEl);
+          list.appendChild(rowEl);
         });
 
-        board.appendChild(wrapper);
+        board.appendChild(list);
       }
 
-      // Attach drag/tap interaction to all placed cards currently on the board
+      updateHelperTipText();
+
       board.querySelectorAll('[data-placed-card]').forEach(el => {
         const cardId = el.dataset.placedCard;
         const cardObj = currentActivity.cards.find(c => c.id === cardId);
@@ -1676,43 +2367,41 @@
       });
     }
 
-    function renderPlacedCardHTML(card, large = false) {
+    function renderPlacedCardHTML(card) {
       const isCorrect = placedCards[card.id] === card.target;
       const isLocked = Boolean(lockedCards[card.id]);
       const isSelected = selectedCardId === card.id;
 
-      let borderClass = 'border-sky-400 hover:border-sky-600 cursor-grab';
+      let stateClass = 'placed';
       let badgeHTML = '';
 
       if (isGraded) {
         if (isCorrect) {
-          borderClass = 'border-emerald-500 bg-emerald-50/40 cursor-default';
-          badgeHTML = `<span class="absolute top-1.5 left-1.5 w-7 h-7 rounded-full bg-emerald-500 text-white font-extrabold text-base flex items-center justify-center shadow" title="Correct!">✓</span>`;
+          stateClass += ' card-correct';
+          badgeHTML = '<span class="grade-badge ok" title="Correct">✓</span>';
         } else {
-          borderClass = 'border-rose-500 bg-rose-50/50 cursor-default';
-          badgeHTML = `<span class="absolute top-1.5 left-1.5 w-7 h-7 rounded-full bg-rose-500 text-white font-extrabold text-base flex items-center justify-center shadow" title="Incorrect">✗</span>`;
+          stateClass += ' card-wrong';
+          badgeHTML = '<span class="grade-badge bad" title="Incorrect">✗</span>';
         }
       } else if (isLocked) {
-        borderClass = 'border-emerald-500 bg-emerald-50/40 cursor-default';
-        badgeHTML = `<span class="absolute top-1.5 left-1.5 w-7 h-7 rounded-full bg-emerald-500 text-white font-extrabold text-base flex items-center justify-center shadow" title="Locked correct answer">✓</span>`;
+        stateClass += ' card-correct';
+        badgeHTML = '<span class="grade-badge ok" title="Saved correct card">✓</span>';
       } else if (isSelected) {
-        borderClass = 'card-selected cursor-pointer';
+        stateClass += ' selected';
       }
 
+      const safeWord = card.label.replace(/'/g, "\\'");
       return `
-        <div data-placed-card="${card.id}" class="animate-pop bg-white rounded-2xl border-4 ${borderClass} p-2 shadow-sm flex flex-col items-center justify-center relative w-full transition-all touch-none">
+        <div data-placed-card="${card.id}" class="pic-card ${stateClass}">
           ${badgeHTML}
-          <button onclick="event.stopPropagation(); speakText('${card.label.replace(/'/g, "\\'")}')" class="speak-btn absolute top-1.5 right-1.5 w-8 h-8 rounded-full bg-amber-200 hover:bg-amber-300 flex items-center justify-center text-sm z-10" aria-label="Say ${card.label}">
-            🔊
-          </button>
-          <div class="${large ? 'scale-100' : 'scale-90'} pointer-events-none">${ICONS[card.icon] || ''}</div>
-          <span class="font-display font-bold text-sm sm:text-base text-slate-800 capitalize mt-0.5 text-center leading-tight pointer-events-none">${card.label}</span>
-          ${!isGraded && !isLocked ? `<span class="text-[10px] font-extrabold text-slate-400 mt-0.5 pointer-events-none">Tap to move</span>` : ''}
+          <button onclick="event.stopPropagation(); speakText('${safeWord}', true, this.parentElement.querySelector('.card-word-label'))" class="speak-btn card-speak-mini" aria-label="Say ${card.label}">🔊</button>
+          ${ICONS[card.icon] || ''}
+          <span class="card-word-label">${card.label}</span>
+          ${!isGraded && !isLocked ? '<span class="move-hint">Tap to move</span>' : ''}
         </div>
       `;
     }
 
-    /* ---------- Render Unplaced Cards in Bottom Tray ---------- */
     function renderTray() {
       const tray = document.getElementById('cardTray');
       tray.innerHTML = '';
@@ -1721,11 +2410,7 @@
       document.getElementById('remainingBadge').textContent = `${unplaced.length} left`;
 
       if (unplaced.length === 0 && !isGraded) {
-        tray.innerHTML = `
-          <div class="col-span-full py-4 text-center text-emerald-800 font-display font-bold text-base sm:text-lg">
-            🎉 All cards are placed! Tap the green <span class="underline">Check My Work!</span> button above to see your mark!
-          </div>
-        `;
+        tray.innerHTML = '<div style="grid-column:1/-1;padding:16px;text-align:center;color:#065f46;font-weight:900;font-size:1.05rem;">🎉 All cards are placed! Tap the green Check My Work! button above to see your mark!</div>';
         return;
       }
 
@@ -1733,32 +2418,45 @@
         const isSelected = selectedCardId === card.id;
         const cardEl = document.createElement('div');
         cardEl.id = `tray-card-${card.id}`;
-        cardEl.className = `bg-white rounded-2xl border-4 ${isSelected ? 'card-selected' : 'border-slate-300 hover:border-sky-400'} p-2.5 shadow-sm flex flex-col items-center justify-between w-full min-h-[128px] cursor-grab active:cursor-grabbing transition-all relative touch-none`;
+        cardEl.className = 'pic-card' + (isSelected ? ' selected' : '');
 
+        const safeWord = card.label.replace(/'/g, "\\'");
         cardEl.innerHTML = `
-          <button onclick="event.stopPropagation(); speakText('${card.label.replace(/'/g, "\\'")}')" class="speak-btn self-end w-9 h-9 rounded-full bg-amber-300 hover:bg-amber-400 border border-amber-500 flex items-center justify-center text-base shadow-sm" aria-label="Read word ${card.label}">
-            🔊
-          </button>
-          <div class="my-0.5 pointer-events-none">${ICONS[card.icon] || ''}</div>
-          <span class="font-display font-bold text-sm sm:text-base text-slate-900 capitalize text-center leading-tight pointer-events-none">
-            ${card.label}
-          </span>
+          <button onclick="event.stopPropagation(); speakText('${safeWord}', true, this.parentElement.querySelector('.card-word-label'))" class="speak-btn card-speak-mini" aria-label="Read ${card.label}">🔊</button>
+          ${ICONS[card.icon] || ''}
+          <span class="card-word-label">${card.label}</span>
         `;
 
-        // Attach unified Pointer Drag + Tap interaction
         attachCardInteraction(cardEl, card, false);
         tray.appendChild(cardEl);
       });
     }
 
     /* ============================================================================
-       7. UNIFIED POINTER DRAG-AND-DROP + TAP-TO-SELECT (IPAD & CHROMEBOOK SAFE)
+       7. CHROMEBOOK & IPAD TOUCH DRAG-AND-DROP + TAP-TO-PLACE
        ============================================================================ */
-    function attachCardInteraction(el, card, isAlreadyPlaced = false) {
+    function attachCardInteraction(el, card, isAlreadyPlaced) {
       let startX = 0;
       let startY = 0;
       let isDragging = false;
       let ghostEl = null;
+      let lastX = 0;
+      let lastY = 0;
+      let scrollTimer = null;
+
+      // Scroll the page while dragging near the top or bottom edge
+      function startAutoScroll() {
+        if (scrollTimer) return;
+        scrollTimer = setInterval(() => {
+          if (lastY < 110) window.scrollBy(0, -14);
+          else if (lastY > window.innerHeight - 80) window.scrollBy(0, 14);
+          else return;
+          highlightDropZoneUnderPoint(lastX, lastY);
+        }, 16);
+      }
+      function stopAutoScroll() {
+        if (scrollTimer) { clearInterval(scrollTimer); scrollTimer = null; }
+      }
 
       el.addEventListener('pointerdown', (e) => {
         if (e.target.closest('.speak-btn') || isGraded || lockedCards[card.id]) return;
@@ -1766,7 +2464,7 @@
         startX = e.clientX;
         startY = e.clientY;
         isDragging = false;
-        el.setPointerCapture(e.pointerId);
+        try { el.setPointerCapture(e.pointerId); } catch (err) {}
       });
 
       el.addEventListener('pointermove', (e) => {
@@ -1779,29 +2477,30 @@
           selectedCardId = card.id;
           ghostEl = el.cloneNode(true);
           ghostEl.classList.add('drag-ghost');
-          ghostEl.style.width = `${Math.min(el.offsetWidth, 160)}px`;
+          ghostEl.style.width = `${Math.min(el.offsetWidth || 130, 150)}px`;
           document.body.appendChild(ghostEl);
           el.style.opacity = '0.35';
-          speakText(card.label, false);
+          speakText(card.label, false, el.querySelector('.card-word-label'));
         }
 
         if (isDragging && ghostEl) {
+          lastX = e.clientX;
+          lastY = e.clientY;
           ghostEl.style.left = `${e.clientX}px`;
           ghostEl.style.top = `${e.clientY}px`;
           highlightDropZoneUnderPoint(e.clientX, e.clientY);
+          startAutoScroll();
         }
       });
 
       el.addEventListener('pointerup', (e) => {
-        if (el.hasPointerCapture(e.pointerId)) {
-          el.releasePointerCapture(e.pointerId);
-        }
+        try {
+          if (el.hasPointerCapture(e.pointerId)) el.releasePointerCapture(e.pointerId);
+        } catch (err) {}
 
+        stopAutoScroll();
         if (isDragging) {
-          if (ghostEl) {
-            ghostEl.remove();
-            ghostEl = null;
-          }
+          if (ghostEl) { ghostEl.remove(); ghostEl = null; }
           el.style.opacity = '1';
           clearDropZoneHighlights();
 
@@ -1810,13 +2509,23 @@
             returnCardToTray(card.id);
           } else if (targetId) {
             placeCardInTarget(card.id, targetId);
+          } else {
+            // Dropped in the middle of nowhere: let go of the card
+            selectedCardId = null;
+            renderBoard();
+            renderTray();
           }
           isDragging = false;
         } else {
           if (e.target.closest('.speak-btn')) return;
           if (isAlreadyPlaced) {
-            // Tapping an already-placed card returns it to the tray so the student can change their answer
-            returnCardToTray(card.id);
+            const held = selectedCardId && selectedCardId !== card.id && !lockedCards[selectedCardId];
+            if (held) {
+              // Holding a card and tapping a spot that already has a card: put the held card in that spot
+              placeCardInTarget(selectedCardId, placedCards[card.id]);
+            } else {
+              returnCardToTray(card.id);
+            }
           } else {
             handleCardTap(card);
           }
@@ -1824,20 +2533,23 @@
       });
 
       el.addEventListener('pointercancel', () => {
-        if (ghostEl) {
-          ghostEl.remove();
-          ghostEl = null;
-        }
+        stopAutoScroll();
+        if (ghostEl) { ghostEl.remove(); ghostEl = null; }
         el.style.opacity = '1';
         clearDropZoneHighlights();
+        if (isDragging) {
+          selectedCardId = null;
+          renderBoard();
+          renderTray();
+        }
         isDragging = false;
       });
     }
 
     function getDropZoneUnderPoint(x, y) {
-      const elements = document.elementsFromPoint(x, y);
-      for (const el of elements) {
-        const zone = el.closest('[data-drop-target]');
+      const els = document.elementsFromPoint(x, y);
+      for (let i = 0; i < els.length; i++) {
+        const zone = els[i].closest('[data-drop-target]');
         if (zone) return zone.dataset.dropTarget;
       }
       return null;
@@ -1848,25 +2560,33 @@
       const targetId = getDropZoneUnderPoint(x, y);
       if (targetId) {
         const zone = document.querySelector(`[data-drop-target="${targetId}"]`);
-        if (zone) zone.classList.add('drop-zone-active');
+        if (zone) zone.classList.add('drop-hover');
       }
     }
 
     function clearDropZoneHighlights() {
-      document.querySelectorAll('.drop-zone-active').forEach(z => z.classList.remove('drop-zone-active'));
+      document.querySelectorAll('.drop-hover').forEach(z => z.classList.remove('drop-hover'));
     }
 
-    /* ---------- Tap & Unrestricted Placement Handlers ---------- */
     function handleCardTap(card) {
       if (isGraded || lockedCards[card.id]) return;
       if (selectedCardId === card.id) {
         selectedCardId = null;
+        renderTray();
+        renderBoard();
       } else {
         selectedCardId = card.id;
-        speakText(card.label, false);
+        renderTray();
+        renderBoard();
+        const labelEl = document.querySelector(`#tray-card-${card.id} .card-word-label`);
+        speakText(card.label, false, labelEl);
       }
-      renderTray();
-      renderBoard();
+    }
+
+    // A click on a placed card that handles its own tap/drag (so the box underneath should ignore it)
+    function isTapOnLiveCard(e) {
+      const el = e.target.closest('[data-placed-card]');
+      return Boolean(el) && !isGraded && !lockedCards[el.dataset.placedCard];
     }
 
     function handleTargetTap(targetId) {
@@ -1903,19 +2623,17 @@
       const card = currentActivity.cards.find(c => c.id === cardId);
       if (!card) return;
 
-      // For single-slot activities (sequence or pattern), swap any unlocked occupant back to the tray
       if (currentActivity.type === 'sequence' || currentActivity.type === 'pattern') {
-        const existingCardId = Object.keys(placedCards).find(cid => placedCards[cid] === targetId);
-        if (existingCardId && existingCardId !== cardId) {
-          if (lockedCards[existingCardId]) {
-            speakText('That spot already has a locked green card!', false);
+        const existingId = Object.keys(placedCards).find(cid => placedCards[cid] === targetId);
+        if (existingId && existingId !== cardId) {
+          if (lockedCards[existingId]) {
+            speakText('That spot already has a saved green card!', false);
             return;
           }
-          delete placedCards[existingCardId];
+          delete placedCards[existingId];
         }
       }
 
-      // Allow placement regardless of whether it is right or wrong!
       placedCards[cardId] = targetId;
       selectedCardId = null;
       playSound('correct');
@@ -1924,13 +2642,15 @@
       updateCheckWorkButton();
     }
 
-    /* ---------- Grading, Marking & Fix Mistakes ---------- */
+    /* ============================================================================
+       8. GRADING, MARKING & FIX MISTAKES
+       ============================================================================ */
     function gradeCurrentActivity() {
       const total = currentActivity.cards.length;
-      const placedCount = Object.keys(placedCards).length;
+      const placed = Object.keys(placedCards).length;
 
-      if (placedCount < total) {
-        const left = total - placedCount;
+      if (placed < total) {
+        const left = total - placed;
         speakText(`Please place all your cards first! You still have ${left} card${left === 1 ? '' : 's'} left.`, true);
         const tray = document.getElementById('trayWrapper');
         tray.classList.remove('animate-wiggle');
@@ -1941,61 +2661,64 @@
 
       isGraded = true;
       let score = 0;
-      currentActivity.cards.forEach(card => {
-        if (placedCards[card.id] === card.target) {
-          score++;
-        }
+      currentActivity.cards.forEach(c => {
+        if (placedCards[c.id] === c.target) score++;
       });
 
       const pct = Math.round((score / total) * 100);
-      const stars = pct === 100 ? 3 : pct >= 75 ? 2 : 1;
-
-      // Save best/latest mark for this activity
       const prev = activityScores[currentActivity.id];
-      if (!prev || score >= prev.score) {
-        activityScores[currentActivity.id] = { score, total, pct, stars };
-      } else {
-        // Still record latest attempt if student replayed
-        activityScores[currentActivity.id] = { score, total, pct, stars };
-      }
+      const isFixingSameRun = Object.keys(lockedCards).length > 0;
+      const firstScore = (prev && typeof prev.firstScore === 'number') ? prev.firstScore : score;
+      const bestScore = prev ? Math.max(prev.score, score) : score;
+      const bestPct = Math.round((bestScore / total) * 100);
+      const bestStars = bestPct === 100 ? 3 : bestPct >= 75 ? 2 : 1;
+
+      activityScores[currentActivity.id] = {
+        score: bestScore,
+        total,
+        pct: bestPct,
+        stars: bestStars,
+        firstScore,
+        attempts: (prev ? (prev.attempts || 1) : 0) + (isFixingSameRun ? 0 : 1)
+      };
       saveProgress();
 
-      // Re-render board with green ✓ and red ✗ badges
       renderBoard();
       updateHelperTipText();
 
-      // Hide Check button & Tray, show Mark Banner
       document.getElementById('checkWorkBar').classList.add('hidden');
       document.getElementById('trayWrapper').classList.add('hidden');
 
       const banner = document.getElementById('completionBanner');
       const starsEl = document.getElementById('resultStarsDisplay');
-      const fractionEl = document.getElementById('markFractionText');
-      const percentEl = document.getElementById('markPercentBadge');
-      const headingEl = document.getElementById('resultHeading');
+      const fracEl = document.getElementById('markFractionText');
+      const pctEl = document.getElementById('markPercentBadge');
+      const headEl = document.getElementById('resultHeading');
       const msgEl = document.getElementById('completionMessage');
       const fixBtn = document.getElementById('fixMistakesBtn');
 
-      fractionEl.textContent = `${score} / ${total}`;
-      percentEl.textContent = `${pct}%`;
+      fracEl.textContent = `${score} / ${total}`;
+      pctEl.textContent = `${pct}%`;
 
       let spokenText = '';
       if (score === total) {
         playSound('win');
         launchConfetti();
-        banner.className = 'rounded-3xl p-5 sm:p-6 shadow-xl border-4 border-white text-center space-y-4 animate-pop bg-gradient-to-r from-emerald-500 via-teal-500 to-sky-500 text-white';
+        banner.className = 'result-banner perfect';
         starsEl.textContent = '⭐⭐⭐';
-        percentEl.className = 'bg-emerald-100 text-emerald-900 font-extrabold text-base sm:text-lg px-3 py-1 rounded-xl';
-        headingEl.textContent = 'Perfect Score! Awesome Job!';
+        pctEl.style.background = '#d1fae5';
+        pctEl.style.color = '#065f46';
+        headEl.textContent = 'Perfect Score! Awesome Job!';
         msgEl.textContent = `You got all ${total} out of ${total} right!`;
         fixBtn.classList.add('hidden');
         spokenText = `You got ${score} out of ${total}! Perfect score! Awesome job!`;
       } else {
         playSound('wrong');
-        banner.className = 'rounded-3xl p-5 sm:p-6 shadow-xl border-4 border-white text-center space-y-4 animate-pop bg-gradient-to-r from-amber-500 via-orange-500 to-sky-600 text-white';
-        starsEl.textContent = stars === 2 ? '⭐⭐☆' : '⭐☆☆';
-        percentEl.className = 'bg-amber-100 text-amber-950 font-extrabold text-base sm:text-lg px-3 py-1 rounded-xl';
-        headingEl.textContent = score >= total / 2 ? 'Great Try!' : 'Good Effort!';
+        banner.className = 'result-banner partial';
+        starsEl.textContent = pct >= 75 ? '⭐⭐☆' : '⭐☆☆';
+        pctEl.style.background = '#fef3c7';
+        pctEl.style.color = '#78350f';
+        headEl.textContent = score >= total / 2 ? 'Great Try!' : 'Good Effort!';
         const wrongCount = total - score;
         msgEl.textContent = `You got ${score} out of ${total}. Tap "Fix Mistakes" to try the ${wrongCount} red card${wrongCount === 1 ? '' : 's'} again!`;
         fixBtn.classList.remove('hidden');
@@ -2006,7 +2729,7 @@
       banner.classList.remove('hidden');
 
       if (autoReadEnabled) {
-        setTimeout(() => speakText(spokenText, false), 250);
+        setTimeout(() => speakText(spokenText, false), 220);
       }
     }
 
@@ -2015,13 +2738,12 @@
       isGraded = false;
       selectedCardId = null;
 
-      // Lock correct green cards in place, and return incorrect red cards to the tray
       const newLocked = {};
-      currentActivity.cards.forEach(card => {
-        if (placedCards[card.id] === card.target) {
-          newLocked[card.id] = true;
+      currentActivity.cards.forEach(c => {
+        if (placedCards[c.id] === c.target) {
+          newLocked[c.id] = true;
         } else {
-          delete placedCards[card.id];
+          delete placedCards[c.id];
         }
       });
       lockedCards = newLocked;
@@ -2041,52 +2763,54 @@
     }
 
     /* ============================================================================
-       8. MY MARKS / REPORT CARD MODAL
+       9. MY MARKS REPORT MODAL & CONFETTI
        ============================================================================ */
     function openReportModal() {
       const modal = document.getElementById('reportModal');
       document.getElementById('studentNameInput').value = studentName;
 
-      const completedIds = Object.keys(activityScores);
-      const completedCount = completedIds.length;
+      const ids = Object.keys(activityScores);
       let earnedSum = 0;
+      let firstSum = 0;
       let possibleSum = 0;
 
-      completedIds.forEach(id => {
+      ids.forEach(id => {
         earnedSum += activityScores[id].score;
+        firstSum += (typeof activityScores[id].firstScore === 'number' ? activityScores[id].firstScore : activityScores[id].score);
         possibleSum += activityScores[id].total;
       });
 
-      const avgPct = possibleSum > 0 ? Math.round((earnedSum / possibleSum) * 100) : null;
-
-      document.getElementById('reportCompletedCount').textContent = `${completedCount} / 16`;
+      const firstAvg = possibleSum > 0 ? `${Math.round((firstSum / possibleSum) * 100)}%` : '—';
+      document.getElementById('reportCompletedCount').textContent = `${ids.length} / ${ACTIVITIES.length}`;
+      document.getElementById('reportFirstTryAvg').textContent = firstAvg;
       document.getElementById('reportTotalPoints').textContent = `${earnedSum} / ${possibleSum}`;
-      document.getElementById('reportAveragePct').textContent = avgPct !== null ? `${avgPct}%` : '—';
 
       const listEl = document.getElementById('reportListContainer');
       listEl.innerHTML = ACTIVITIES.map(act => {
         const rec = activityScores[act.id];
-        const statusBadge = rec
-          ? `<div class="flex items-center gap-2 shrink-0">
-              <span class="text-sm sm:text-base">${'⭐'.repeat(rec.stars)}</span>
-              <span class="font-display font-bold text-base sm:text-lg ${rec.score === rec.total ? 'bg-emerald-100 text-emerald-900 border-emerald-400' : 'bg-amber-100 text-amber-950 border-amber-400'} border-2 px-3 py-1 rounded-xl">
+        const firstNote = (rec && typeof rec.firstScore === 'number' && rec.firstScore !== rec.score)
+          ? `<span style="font-size:0.75rem;font-weight:800;background:#eef2ff;color:#3730a3;border:1.5px solid #c7d2fe;padding:2px 7px;border-radius:8px;">1st: ${rec.firstScore}/${rec.total}</span>`
+          : '';
+        const rightSide = rec
+          ? `<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+              ${firstNote}
+              <span>${'⭐'.repeat(rec.stars)}</span>
+              <span class="mark-pill ${rec.score === rec.total ? 'perfect' : ''}" style="font-size:0.9rem;padding:4px 10px;">
                 ${rec.score} / ${rec.total} (${rec.pct}%)
               </span>
             </div>`
-          : `<button onclick="closeReportModal(); startActivity(${act.id});" class="bg-sky-100 hover:bg-sky-200 text-sky-900 font-bold text-xs sm:text-sm px-3 py-1.5 rounded-xl shrink-0">
-              Start ▶️
-            </button>`;
+          : `<button onclick="closeReportModal(); startActivity(${act.id});" class="btn" style="background:#e0f2fe;color:#0c4a6e;padding:6px 12px;font-size:0.85rem;">Start ▶️</button>`;
 
         return `
-          <div class="flex items-center justify-between gap-3 bg-slate-50 border-2 border-slate-200 rounded-2xl px-3.5 py-2.5">
-            <div class="flex items-center gap-2.5 min-w-0">
-              <span class="text-2xl shrink-0">${act.emoji}</span>
-              <div class="truncate">
-                <div class="text-xs font-extrabold text-sky-700">#${act.id} • ${act.code}</div>
-                <div class="font-display font-bold text-slate-900 text-sm sm:text-base truncate">${act.title}</div>
+          <div class="report-row">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <span style="font-size:1.5rem;">${act.emoji}</span>
+              <div>
+                <div style="font-size:0.75rem;font-weight:900;color:#0369a1;">#${act.id} • ${act.code}</div>
+                <div style="font-weight:900;color:#0f172a;">${act.title}</div>
               </div>
             </div>
-            ${statusBadge}
+            ${rightSide}
           </div>
         `;
       }).join('');
@@ -2099,20 +2823,20 @@
     }
 
     function readReportSummary() {
-      const completedIds = Object.keys(activityScores);
-      if (completedIds.length === 0) {
+      const ids = Object.keys(activityScores);
+      if (ids.length === 0) {
         speakText('You have not checked any activities yet. Pick an activity and tap Check My Work to earn your first mark!', true);
         return;
       }
-      let earnedSum = 0;
-      let possibleSum = 0;
-      completedIds.forEach(id => {
-        earnedSum += activityScores[id].score;
-        possibleSum += activityScores[id].total;
+      let earned = 0;
+      let possible = 0;
+      ids.forEach(id => {
+        earned += activityScores[id].score;
+        possible += activityScores[id].total;
       });
-      const avgPct = Math.round((earnedSum / possibleSum) * 100);
-      const namePrefix = studentName.trim() ? `${studentName.trim()}, you` : 'You';
-      speakText(`${namePrefix} have completed ${completedIds.length} out of 16 activities, with a total score of ${earnedSum} out of ${possibleSum} points, or ${avgPct} percent!`, true);
+      const avg = Math.round((earned / possible) * 100);
+      const who = studentName.trim() ? `${studentName.trim()}, you` : 'You';
+      speakText(`${who} have completed ${ids.length} out of ${ACTIVITIES.length} activities, with a score of ${earned} out of ${possible} points, or ${avg} percent!`, true);
     }
 
     let clearConfirmArmed = false;
@@ -2121,13 +2845,15 @@
       if (!clearConfirmArmed) {
         clearConfirmArmed = true;
         btn.textContent = '⚠️ Tap Again to Erase All Marks';
-        btn.className = 'bg-rose-600 text-white border-2 border-rose-800 font-bold px-4 py-2.5 rounded-xl text-sm transition';
+        btn.style.background = '#e11d48';
+        btn.style.color = '#ffffff';
         speakText('Tap again if you want to erase all marks.', false);
         setTimeout(() => {
           clearConfirmArmed = false;
           if (btn) {
             btn.textContent = '🗑️ Reset All Marks';
-            btn.className = 'bg-rose-100 hover:bg-rose-200 text-rose-800 border-2 border-rose-300 font-bold px-4 py-2.5 rounded-xl text-sm transition';
+            btn.style.background = '#fff1f2';
+            btn.style.color = '#9f1239';
           }
         }, 4000);
       } else {
@@ -2142,21 +2868,21 @@
 
     function launchConfetti() {
       const colors = ['#facc15', '#38bdf8', '#4ade80', '#f472b6', '#fb923c'];
-      for (let i = 0; i < 42; i++) {
-        const piece = document.createElement('div');
-        piece.className = 'confetti-piece';
-        piece.style.left = `${Math.random() * 100}vw`;
-        piece.style.backgroundColor = colors[i % colors.length];
-        piece.style.animationDelay = `${Math.random() * 0.5}s`;
-        document.body.appendChild(piece);
-        setTimeout(() => piece.remove(), 2800);
+      for (let i = 0; i < 36; i++) {
+        const p = document.createElement('div');
+        p.className = 'confetti-piece';
+        p.style.left = `${Math.random() * 100}vw`;
+        p.style.backgroundColor = colors[i % colors.length];
+        p.style.animationDelay = `${Math.random() * 0.4}s`;
+        document.body.appendChild(p);
+        setTimeout(() => p.remove(), 2600);
       }
     }
 
     /* ============================================================================
-       8. INITIALIZATION
+       10. INITIALIZE IMMEDIATELY ON LOAD
        ============================================================================ */
-    window.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', () => {
       updateStarsUI();
       renderMenu();
     });
